@@ -14,6 +14,10 @@ on:
         default: true
         required: true
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   tag:
     name: Create tag on tip of Main
@@ -119,9 +123,9 @@ jobs:
     name: Update gh-pages
     needs: [build-new-maven-vendordep-javadoc, build-docs]
     runs-on: ubuntu-latest
-    env:
-      buildVersion: ${{ inputs.buildVersion }}
-      
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     permissions:
       contents: write
       pages: write
@@ -208,3 +212,14 @@ jobs:
       # - name: Deploy to GitHub Pages
       #   id: deployment
       #   uses: actions/deploy-pages@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: './root'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

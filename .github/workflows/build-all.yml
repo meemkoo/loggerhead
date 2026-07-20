@@ -1,0 +1,210 @@
+name: Build All for pages
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildVersion:
+        description: "Version number without `v` (If not creating, Tag must exist with the version number, prefix with a v)"
+        type: string
+        required: true
+      createTag:
+        description: 'Creates tag'
+        type: boolean
+        default: true
+        required: true
+
+jobs:
+  tag:
+    name: Create tag on tip of Main
+    if: inputs.createTag
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: 'main'
+          path: ./
+
+      - name: Create and push tag
+        run: |
+          git config user.name "meemkoo"
+          git config user.email "guy99992@gmail.com"
+          git tag v${{ inputs.buildVersion }} ${{ github.sha }}
+          git push origin v${{ inputs.buildVersion }}
+
+  build-docs:
+    name: Build MkDocs
+    needs: [tag]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: 'v${{ inputs.buildVersion }}'
+          path: ./
+
+      - name: Setup python and MkDocs
+        run: |
+          sudo apt install python3 python3-venv python3-pip -y
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install mkdocs mkdocs-material
+
+      - name: Install
+        run: |
+          sudo apt update
+          sudo apt install tree
+
+      - name: Build MkDocs
+        run: |
+          source .venv/bin/activate
+          mkdir build -p
+          cd docs/
+          python3 -m mkdocs build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: new-docs-v${{ inputs.buildVersion }}
+          path: build/mkdocs
+      
+      - run: |
+          tree
+
+  build-new-maven-vendordep-javadoc:
+    name: Build maven vendordep and javadoc
+    needs: [tag]
+    runs-on: ubuntu-latest
+    env:
+      buildVersion: ${{ inputs.buildVersion }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: 'v${{ inputs.buildVersion }}'
+          path: ./
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build Everything
+        run: ./gradlew -PreleaseMode -Pversion="${{ inputs.buildVersion }}" build
+
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: new-maven-v${{ inputs.buildVersion }}
+          path: build/repos/releases
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: new-javadoc-v${{ inputs.buildVersion }}
+          path: build/docs/javadoc/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: new-vendordep-v${{ inputs.buildVersion }}
+          path: build/repos/Loggerhead.json
+
+  final-gh-pages:
+    name: Update gh-pages
+    needs: [build-new-maven-vendordep-javadoc, build-docs]
+    runs-on: ubuntu-latest
+    env:
+      buildVersion: ${{ inputs.buildVersion }}
+      
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: 'gh-pages'
+          path: ./root
+
+      - run: |
+          mkdir staging/{vendordeps,maven,javadoc,docs} root -p
+      
+      - uses: actions/download-artifact@v4
+        with:
+          name: new-maven-v${{ inputs.buildVersion }}
+          path: staging/maven
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: new-javadoc-v${{ inputs.buildVersion }}
+          path: staging/javadoc
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: new-vendordep-v${{ inputs.buildVersion }}
+          path: staging/vendordeps
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: new-docs-v${{ inputs.buildVersion }}
+          path: staging/docs
+
+
+      - name: Setup python
+        run: |
+          sudo apt install python3 python3-venv python3-pip -y
+          python3 -m venv .venv
+          source .venv/bin/activate
+
+      - name: Do Javadoc
+        run: |
+          source .venv/bin/activate
+          python3 root/utility.py inj path:staging/javadoc path:root str:${{ inputs.buildVersion }}
+          python3 root/utility.py cjm path:root
+          python3 root/utility.py gji path:root
+
+      - name: Do Maven
+        run: |
+          source .venv/bin/activate
+          python3 root/utility.py inmr path:root path:staging/maven
+          python3 root/utility.py gmm path:root
+
+      - name: Do Vendordep
+        run: |
+          source .venv/bin/activate
+          python3 root/utility.py inv path:root path:staging/vendordeps/Loggerhead.json str:${{ inputs.buildVersion }}
+
+      - name: Do MkDocs
+        run: |
+          source .venv/bin/activate
+          python3 root/utility.py mm path:root path:staging/docs str:${{ inputs.buildVersion }}
+
+      - run: |
+          sudo apt update
+          sudo apt install tree && tree
+
+      - run: |
+          cd root
+          git config --global user.name meemkoo
+          git config --global user.email guy99992@gmail.com
+          git add .
+          git commit -m "Updating repo"
+          git push
+
+      # - name: Upload to GitHub Pages
+      #   uses: actions/upload-pages-artifact@v4
+      #   with:
+      #     name: github-pages
+      #     retention-days: '10'
+      #     path: root/
+
+      # - name: Deploy to GitHub Pages
+      #   id: deployment
+      #   uses: actions/deploy-pages@v4

@@ -1,0 +1,20 @@
+{
+    "fileName": "Loggerhead.json",
+    "name": "Loggerhead",
+    "version": "${version}",
+    "frcYear": "2026",
+    "uuid": "c183f631-5a34-4a10-95c3-267b84b91486",
+    "mavenUrls": [
+        "${mavenUrl}"
+    ],
+    "jsonUrl": "${jsonUrl}",
+    "javaDependencies": [
+        {
+            "groupId": "${groupId}",
+            "artifactId": "${artifactId}-java",
+            "version": "${version}"
+        }
+    ],
+    "jniDependencies": [],
+    "cppDependencies": []
+}

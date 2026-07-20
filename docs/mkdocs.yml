@@ -1,0 +1,39 @@
+site_name: Loggerhead
+site_dir: ../build/mkdocs
+
+markdown_extensions:
+  - footnotes
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Get Started: getting-started.md
+  - Compound Loggers: about-compound-loggers.md
+  - Built-in Compound Loggers:
+    - Subsystems: compoundloggers/subsystems.md
+    - Controllers: compoundloggers/controllers.md
+    - CTRE Drivetrain: compoundloggers/ctre-drivetrain.md
+  - Development: developers/development.md
+
+extra_css:
+  - style/extra.css
+
+theme:
+  name: material
+  font: false
+  logo: assets/loggerhead.png
+  favicon: assets/loggerhead.png
+  palette:
+    - scheme: default
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    - scheme: slate
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode

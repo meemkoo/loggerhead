@@ -1,0 +1,156 @@
+import edu.wpi.first.toolchain.*
+
+plugins {
+  id 'cpp'
+  id 'java'
+  id 'google-test'
+  id 'edu.wpi.first.wpilib.repositories.WPILibRepositoriesPlugin' version '2025.0'
+  id 'edu.wpi.first.NativeUtils' version '2026.0.1'
+  id "edu.wpi.first.GradleRIO" version "2026.2.1" // This allows import of other vendordeps
+  id 'edu.wpi.first.GradleJni' version '1.1.0'
+  id 'edu.wpi.first.GradleVsCode' version '2.1.0'
+  id 'com.diffplug.spotless' version '6.20.0'
+}
+
+spotless {
+  java {
+    target fileTree('.') {
+      include '**/*.java'
+      exclude '**/build/**', '**/build-*/**', '**/bin/**'
+    }
+    toggleOffOn()
+    googleJavaFormat()
+    removeUnusedImports()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  groovyGradle {
+    target fileTree('.') {
+      include '**/*.gradle'
+      exclude '**/build/**', '**/build-*/**'
+    }
+    greclipse()
+    indentWithSpaces(2)
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  format 'xml', {
+    target fileTree('.') {
+      include '**/*.xml'
+      exclude '**/build/**', '**/build-*/**'
+    }
+    eclipseWtp('xml')
+    trimTrailingWhitespace()
+    indentWithSpaces(2)
+    endWithNewline()
+  }
+  format 'misc', {
+    target fileTree('.') {
+      include '**/*.md', '**/.gitignore'
+      exclude '**/build/**', '**/build-*/**'
+    }
+    trimTrailingWhitespace()
+    indentWithSpaces(2)
+    endWithNewline()
+  }
+}
+
+apply from: 'releaseUrls.gradle'
+
+// WPILib Version
+ext.wpilibVersion = "2026.+"
+
+repositories {
+  mavenCentral()
+}
+
+if (project.hasProperty('releaseMode')) {
+  wpilibRepositories.addAllReleaseRepositories(project)
+} else {
+  wpilibRepositories.addAllDevelopmentRepositories(project)
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+}
+var javaVersion = "17"
+
+// Apply C++ configuration
+// apply from: 'config.gradle'
+
+// Apply Java configuration
+dependencies {
+  implementation wpi.java.vendor.java()
+
+  implementation "edu.wpi.first.cscore:cscore-java:$wpilibVersion"
+  implementation "edu.wpi.first.cameraserver:cameraserver-java:$wpilibVersion"
+  implementation "edu.wpi.first.ntcore:ntcore-java:$wpilibVersion"
+  implementation "edu.wpi.first.wpilibj:wpilibj-java:$wpilibVersion"
+  implementation "edu.wpi.first.wpiutil:wpiutil-java:$wpilibVersion"
+  implementation "edu.wpi.first.wpimath:wpimath-java:$wpilibVersion"
+  implementation "edu.wpi.first.wpiunits:wpiunits-java:$wpilibVersion"
+  implementation "edu.wpi.first.hal:hal-java:$wpilibVersion"
+  implementation "org.ejml:ejml-simple:0.44.0"
+  implementation "com.fasterxml.jackson.core:jackson-annotations:2.19.2"
+  implementation "com.fasterxml.jackson.core:jackson-core:2.19.2"
+  implementation "com.fasterxml.jackson.core:jackson-databind:2.19.2"
+  implementation 'edu.wpi.first.thirdparty.frc2025.opencv:opencv-java:4.10.0-2'
+
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.13.4'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  testRuntimeOnly 'us.hebi.quickbuf:quickbuf-runtime:1.4'
+}
+
+// Set up java tests
+test {
+  useJUnitPlatform()
+  systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
+  testLogging {
+    showStandardStreams = true
+    events "failed"
+    exceptionFormat = "full"
+  }
+}
+
+if (project.hasProperty('onlylinuxathena') || project.hasProperty('onlylinuxarm32') || project.hasProperty('onlylinuxarm64') || project.hasProperty('onlywindowsarm64') || project.hasProperty('onlylinuxsystemcore')) {
+  test.enabled = false
+}
+
+tasks.withType(JavaCompile) {
+  options.compilerArgs.add '-XDstringConcat=inline'
+  options.encoding = 'UTF-8'
+}
+
+// Setup Javadocs to link back to WPILib docs
+javadoc {
+  options {
+    links "https://docs.oracle.com/en/java/javase/$javaVersion/docs/api/", 'https://github.wpilib.org/allwpilib/docs/release/java/'
+    // options.windowTitle = "Loggerhead"
+    // options.docTitle = "Loggerhead ${project.version != 'unspecified' ? project.version : 'dev-snapshot'} API"
+  }
+}
+
+build.dependsOn spotlessApply
+
+ext.getCurrentArch = {
+  return NativePlatforms.desktop
+}
+
+def systemArch = getCurrentArch()
+
+model {
+  components {
+  }
+  testSuites {
+  }
+}
+
+apply from: 'publish.gradle'
+
+build.dependsOn spotlessApply
+build.finalizedBy publish
+
+wrapper {
+  gradleVersion = '8.14.3'
+}

@@ -1,0 +1,5 @@
+ext {
+  releaseJsonPrefix = "https://meemkoo.github.io/loggerhead/vendordeps"
+  releaseMaven = "https://meemkoo.github.io/loggerhead/maven"
+  version = version != 'unspecified' ? version : 'dev-snapshot'
+}

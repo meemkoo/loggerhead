@@ -1,0 +1,12 @@
+<script>
+  (function() {
+    var ua = navigator.userAgent.toLowerCase();
+    var isBrowser = ua.includes('mozilla') || 
+                    ua.includes('chrome') ||
+                    ua.includes('firefox') || 
+                    ua.includes('edge');
+    if (isBrowser) {
+      window.location.replace("https://meemkoo.github.io/loggerhead/docs");
+    }
+  })();
+</script>

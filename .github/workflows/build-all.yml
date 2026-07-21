@@ -167,7 +167,7 @@ jobs:
           python3 -m venv .venv
           source .venv/bin/activate
 
-      - name: Do Javadoc
+      - name: Do Javadocs
         run: |
           source .venv/bin/activate
           python3 root/utility.py inj path:staging/javadoc path:root str:${{ inputs.buildVersion }}
@@ -180,15 +180,17 @@ jobs:
           python3 root/utility.py inmr path:root path:staging/maven
           python3 root/utility.py gmm path:root
 
-      - name: Do Vendordep
+      - name: Do Vendordeps
         run: |
           source .venv/bin/activate
           python3 root/utility.py inv path:root path:staging/vendordeps/Loggerhead.json str:${{ inputs.buildVersion }}
+          python3 root/utility.py gvi path:root
 
       - name: Do MkDocs
         run: |
           source .venv/bin/activate
           python3 root/utility.py mm path:root path:staging/docs str:${{ inputs.buildVersion }}
+          python3 root/utility.py gdi path:root
 
       - run: |
           sudo apt update

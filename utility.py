@@ -249,7 +249,10 @@ def generate_javadoc_index(repo: Path) -> None:
     )
 
     stable_versions = [v for v in versions_all if not v.isDev and not v.isUnstable]
-    latest_stable_version = stable_versions.pop(-1)
+    if len(stable_versions):
+        latest_stable_version = stable_versions.pop(-1)
+    else:
+        latest_stable_version = None # There are no stable versions, this will be handled specially
     dev_versions = [v for v in versions_all if v.isDev and not v.isUnstable]
     unstable_versions = [v for v in versions_all if not v.isDev and v.isUnstable]
     other_versions = [v for v in versions_all if v.isDev and v.isUnstable]
@@ -279,9 +282,10 @@ def generate_javadoc_index(repo: Path) -> None:
     heading5.text = 'Others'
     other_list = ElementTree.SubElement(body, 'ul')
 
-    latest_entry = ElementTree.SubElement(stable_list, 'li')
-    latest_a = ElementTree.SubElement(latest_entry, 'a', {'href': f"{str(latest_stable_version)}/index.html"})
-    latest_a.text = f'latest ({latest_stable_version})'
+    if latest_stable_version:
+        latest_entry = ElementTree.SubElement(stable_list, 'li')
+        latest_a = ElementTree.SubElement(latest_entry, 'a', {'href': f"{str(latest_stable_version)}/index.html"})
+        latest_a.text = f'latest ({latest_stable_version})'
 
     for v in stable_versions:
         entry = ElementTree.SubElement(stable_list, 'li')

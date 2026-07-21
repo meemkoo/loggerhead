@@ -407,15 +407,6 @@ def generate_devdocs_index(repo: Path) -> None:
         VersionTag.from_string_array(versions_all)
     )
 
-    # stable_versions = [v for v in versions_all if not v.isDev and not v.isUnstable]
-    # if len(stable_versions):
-    #     latest_stable_version = stable_versions.pop(-1)
-    # else:
-    #     latest_stable_version = None # There are no stable versions, this will be handled specially
-    # dev_versions = [v for v in versions_all if v.isDev and not v.isUnstable]
-    # unstable_versions = [v for v in versions_all if not v.isDev and v.isUnstable]
-    # other_versions = [v for v in versions_all if v.isDev and v.isUnstable]
-
     root = ElementTree.Element('html', {'lang': 'en'})
     head = ElementTree.SubElement(root, 'head')
     ElementTree.SubElement(head, 'meta', {'charset': 'utf-8'})
@@ -425,46 +416,12 @@ def generate_devdocs_index(repo: Path) -> None:
     heading1 = ElementTree.SubElement(body, 'h1')
     heading1.text = title.text
 
-    # heading2 = ElementTree.SubElement(body, 'h2')
-    # heading2.text = 'Stable'
-    # stable_list = ElementTree.SubElement(body, 'ul')
-
-    # heading3 = ElementTree.SubElement(body, 'h2')
-    # heading3.text = 'Unstable'
-    # unstable_list = ElementTree.SubElement(body, 'ul')
-
-    # heading4 = ElementTree.SubElement(body, 'h2')
-    # heading4.text = 'Development Docs'
     dev_list = ElementTree.SubElement(body, 'ul')
-
-    # heading5 = ElementTree.SubElement(body, 'h2')
-    # heading5.text = 'Others'
-    # other_list = ElementTree.SubElement(body, 'ul')
-
-    # if latest_stable_version:
-    #     latest_entry = ElementTree.SubElement(stable_list, 'li')
-    #     latest_a = ElementTree.SubElement(latest_entry, 'a', {'href': f"{str(latest_stable_version)}/index.html"})
-    #     latest_a.text = f'latest ({latest_stable_version})'
-
-    # for v in stable_versions:
-    #     entry = ElementTree.SubElement(stable_list, 'li')
-    #     a = ElementTree.SubElement(entry, 'a', {'href': f"{str(v)}/index.html"})
-    #     a.text = str(v)
 
     for v in versions_all:
         entry = ElementTree.SubElement(dev_list, 'li')
         a = ElementTree.SubElement(entry, 'a', {'href': f"{str(v)}/index.html"})
         a.text = str(v)
-
-    # for v in unstable_versions:
-    #     entry = ElementTree.SubElement(unstable_list, 'li')
-    #     a = ElementTree.SubElement(entry, 'a', {'href': f"{str(v)}/index.html"})
-    #     a.text = str(v)
-
-    # for v in other_versions:
-    #     entry = ElementTree.SubElement(other_list, 'li')
-    #     a = ElementTree.SubElement(entry, 'a', {'href': f"{str(v)}/index.html"})
-    #     a.text = str(v)
 
     strung: bytes = ElementTree.tostring(root, 'utf-8', short_empty_elements=False)
 

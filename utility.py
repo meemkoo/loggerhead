@@ -207,7 +207,7 @@ def determine_javadoc_kill_keep_list(versions: list[VersionTag]):
             kill_list += vsorted
         pass
 
-    assert len(kill_list)+len(keep_list)==len(operating_versions)
+    assert len(kill_list)+len(keep_list)==len(versions)
 
     return kill_list, keep_list
 

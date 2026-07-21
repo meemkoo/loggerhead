@@ -394,6 +394,85 @@ def move_mkdocs(repo: Path, new_docs_root: Path, version: str | VersionTag):
 
     pass
 
+@operation
+def generate_devdocs_index(repo: Path) -> None:
+    devdocs_root = repo.joinpath('devdocs')
+
+    versions_all = []
+    for file in os.listdir(devdocs_root):
+        if VersionTag.is_valid_version(file):
+            versions_all.append(file)
+
+    versions_all = VersionTag.sort_version(
+        VersionTag.from_string_array(versions_all)
+    )
+
+    # stable_versions = [v for v in versions_all if not v.isDev and not v.isUnstable]
+    # if len(stable_versions):
+    #     latest_stable_version = stable_versions.pop(-1)
+    # else:
+    #     latest_stable_version = None # There are no stable versions, this will be handled specially
+    # dev_versions = [v for v in versions_all if v.isDev and not v.isUnstable]
+    # unstable_versions = [v for v in versions_all if not v.isDev and v.isUnstable]
+    # other_versions = [v for v in versions_all if v.isDev and v.isUnstable]
+
+    root = ElementTree.Element('html', {'lang': 'en'})
+    head = ElementTree.SubElement(root, 'head')
+    ElementTree.SubElement(head, 'meta', {'charset': 'utf-8'})
+    title = ElementTree.SubElement(head, 'title')
+    title.text = 'Loggerhead Devdocs'
+    body = ElementTree.SubElement(root, 'body')
+    heading1 = ElementTree.SubElement(body, 'h1')
+    heading1.text = title.text
+
+    # heading2 = ElementTree.SubElement(body, 'h2')
+    # heading2.text = 'Stable'
+    # stable_list = ElementTree.SubElement(body, 'ul')
+
+    # heading3 = ElementTree.SubElement(body, 'h2')
+    # heading3.text = 'Unstable'
+    # unstable_list = ElementTree.SubElement(body, 'ul')
+
+    # heading4 = ElementTree.SubElement(body, 'h2')
+    # heading4.text = 'Development Docs'
+    dev_list = ElementTree.SubElement(body, 'ul')
+
+    # heading5 = ElementTree.SubElement(body, 'h2')
+    # heading5.text = 'Others'
+    # other_list = ElementTree.SubElement(body, 'ul')
+
+    # if latest_stable_version:
+    #     latest_entry = ElementTree.SubElement(stable_list, 'li')
+    #     latest_a = ElementTree.SubElement(latest_entry, 'a', {'href': f"{str(latest_stable_version)}/index.html"})
+    #     latest_a.text = f'latest ({latest_stable_version})'
+
+    # for v in stable_versions:
+    #     entry = ElementTree.SubElement(stable_list, 'li')
+    #     a = ElementTree.SubElement(entry, 'a', {'href': f"{str(v)}/index.html"})
+    #     a.text = str(v)
+
+    for v in versions_all:
+        entry = ElementTree.SubElement(dev_list, 'li')
+        a = ElementTree.SubElement(entry, 'a', {'href': f"{str(v)}/index.html"})
+        a.text = str(v)
+
+    # for v in unstable_versions:
+    #     entry = ElementTree.SubElement(unstable_list, 'li')
+    #     a = ElementTree.SubElement(entry, 'a', {'href': f"{str(v)}/index.html"})
+    #     a.text = str(v)
+
+    # for v in other_versions:
+    #     entry = ElementTree.SubElement(other_list, 'li')
+    #     a = ElementTree.SubElement(entry, 'a', {'href': f"{str(v)}/index.html"})
+    #     a.text = str(v)
+
+    strung: bytes = ElementTree.tostring(root, 'utf-8', short_empty_elements=False)
+
+    with open(os.path.join(devdocs_root, "index.html"), "w") as f:
+        f.write(strung.decode('utf-8'))
+
+    print(f"Indexed dev docs")
+
 
 # Vendordep
 
@@ -409,6 +488,89 @@ def install_new_vendordep(repo: Path, new_vendordep: Path, version: str | Versio
 
     shutil.copyfile(new_vendordep, repo.joinpath(f'vendordeps/Loggerhead-{str(version)}.json'))
     shutil.copyfile(repo.joinpath(f'vendordeps/Loggerhead-{str(version)}.json'), repo.joinpath(f'vendordeps/Loggerhead.json'))
+
+@operation
+def generate_vendordep_index(repo: Path) -> None:
+    vendordep_root = repo.joinpath('vendordeps')
+
+    versions_all = []
+    for file in os.listdir(vendordep_root):
+        path = Path(file)
+        if path.suffix == '.json':
+            parts = str(path.with_suffix('')).split('-')[1:]
+            if not parts:
+                continue
+            versions_all.append('-'.join(parts))
+
+    versions_all = VersionTag.sort_version(
+        VersionTag.from_string_array(versions_all)
+    )
+
+    stable_versions = [v for v in versions_all if not v.isDev and not v.isUnstable]
+    if len(stable_versions):
+        latest_stable_version = stable_versions.pop(-1)
+    else:
+        latest_stable_version = None # There are no stable versions, this will be handled specially
+    dev_versions = [v for v in versions_all if v.isDev and not v.isUnstable]
+    unstable_versions = [v for v in versions_all if not v.isDev and v.isUnstable]
+    other_versions = [v for v in versions_all if v.isDev and v.isUnstable]
+
+    root = ElementTree.Element('html', {'lang': 'en'})
+    head = ElementTree.SubElement(root, 'head')
+    ElementTree.SubElement(head, 'meta', {'charset': 'utf-8'})
+    title = ElementTree.SubElement(head, 'title')
+    title.text = 'Loggerhead Vendordeps'
+    body = ElementTree.SubElement(root, 'body')
+    heading1 = ElementTree.SubElement(body, 'h1')
+    heading1.text = title.text
+
+    heading2 = ElementTree.SubElement(body, 'h2')
+    heading2.text = 'Stable'
+    stable_list = ElementTree.SubElement(body, 'ul')
+
+    heading3 = ElementTree.SubElement(body, 'h2')
+    heading3.text = 'Unstable'
+    unstable_list = ElementTree.SubElement(body, 'ul')
+
+    heading4 = ElementTree.SubElement(body, 'h2')
+    heading4.text = 'Dev'
+    dev_list = ElementTree.SubElement(body, 'ul')
+
+    heading5 = ElementTree.SubElement(body, 'h2')
+    heading5.text = 'Others'
+    other_list = ElementTree.SubElement(body, 'ul')
+
+    if latest_stable_version:
+        latest_entry = ElementTree.SubElement(stable_list, 'li')
+        latest_a = ElementTree.SubElement(latest_entry, 'a', {'href': f"Loggerhead-{str(latest_stable_version)}.json"})
+        latest_a.text = f'latest ({latest_stable_version})'
+
+    for v in stable_versions:
+        entry = ElementTree.SubElement(stable_list, 'li')
+        a = ElementTree.SubElement(entry, 'a', {'href': f"Loggerhead-{str(v)}.json"})
+        a.text = str(v)
+
+    for v in dev_versions:
+        entry = ElementTree.SubElement(dev_list, 'li')
+        a = ElementTree.SubElement(entry, 'a', {'href': f"Loggerhead-{str(v)}.json"})
+        a.text = str(v)
+
+    for v in unstable_versions:
+        entry = ElementTree.SubElement(unstable_list, 'li')
+        a = ElementTree.SubElement(entry, 'a', {'href': f"Loggerhead-{str(v)}.json"})
+        a.text = str(v)
+
+    for v in other_versions:
+        entry = ElementTree.SubElement(other_list, 'li')
+        a = ElementTree.SubElement(entry, 'a', {'href': f"Loggerhead-{str(v)}.json"})
+        a.text = str(v)
+
+    strung: bytes = ElementTree.tostring(root, 'utf-8', short_empty_elements=False)
+
+    with open(os.path.join(vendordep_root, "index.html"), "w") as f:
+        f.write(strung.decode('utf-8'))
+
+    print(f"Indexed vendordeps")
 
 
 

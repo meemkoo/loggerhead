@@ -20,6 +20,8 @@ package com.sbdc.loggerhead.compoundlogger;
 import com.sbdc.loggerhead.LogMode;
 import com.sbdc.loggerhead.Loggerhead;
 import com.sbdc.loggerhead.OneShot;
+import com.sbdc.loggerhead.Table;
+
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -47,8 +49,8 @@ public class LogSubsystemCommands implements CompoundLogger {
   }
 
   @Override
-  public void initialize(String parentTable) {
-    String logRoot = parentTable + name + "/";
+  public void initialize(Table parentTable) {
+    String logRoot = parentTable.path + name + "/";
 
     // Publish only to network tables that it is of type subsystem (for display in dashboards)
     OneShot.setString(logRoot + ".type", "Subsystem");

@@ -21,6 +21,7 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrain;
 import com.sbdc.loggerhead.LogMode;
 import com.sbdc.loggerhead.Loggerhead;
 import com.sbdc.loggerhead.OneShot;
+import com.sbdc.loggerhead.Table;
 
 public class LogCTREDrivetrain implements CompoundLogger {
   private final SwerveDrivetrain<?, ?, ?> drivetrain;
@@ -34,9 +35,9 @@ public class LogCTREDrivetrain implements CompoundLogger {
   }
 
   @Override
-  public void initialize(String parentTable) {
-    String logRootSwerve = parentTable + name + "/Swerve/";
-    String logRootPose = parentTable + name + "/Pose/";
+  public void initialize(Table parentTable) {
+    String logRootSwerve = parentTable.path + name + "/Swerve/";
+    String logRootPose = parentTable.path + name + "/Pose/";
 
     // OneShot.setString(logRootSwerve + ".type", "SwerveDrive");
     OneShot.setString(logRootPose + ".type", "Field2d");

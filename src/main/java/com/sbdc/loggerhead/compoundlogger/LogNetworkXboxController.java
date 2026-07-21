@@ -18,6 +18,8 @@
 package com.sbdc.loggerhead.compoundlogger;
 
 import com.sbdc.loggerhead.LogMode;
+import com.sbdc.loggerhead.Table;
+
 import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.IntegerPublisher;
@@ -74,9 +76,9 @@ public class LogNetworkXboxController implements CompoundLogger {
   }
 
   @Override
-  public void initialize(String parentTable) {
+  public void initialize(Table parentTable) {
     // TODO Make declaritive, dont undercut Loggerhead
-    controllerRoot = inst.getTable(parentTable + this.name);
+    controllerRoot = inst.getTable(parentTable.path + this.name);
 
     axes = controllerRoot.getSubTable("Axes");
     buttons = controllerRoot.getSubTable("Buttons");

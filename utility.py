@@ -204,6 +204,7 @@ def clean_javadoc_main(repo: Path):
     javadoc_dir = repo.joinpath('javadoc')
     versions = [VersionTag.from_string(j) for j in [i for i in os.listdir(javadoc_dir) if VersionTag.is_valid_version(i)]]
     print("Github workflows really can see new commits!")
+    print(versions)
     if len(versions) != 0:
         kill_list, keep_list = determine_javadoc_kill_keep_list(versions)
         for i in kill_list:

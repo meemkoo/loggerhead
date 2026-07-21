@@ -170,17 +170,29 @@ def get_max_major_version(versions: list[VersionTag]):
 # Javadoc
 
 def determine_javadoc_kill_keep_list(versions: list[VersionTag]):
-    stable = no_unstable(no_dev(versions))
+    kill_list = []
+    keep_list = []
 
-    majors = set([v.x for v in stable])
+    operating_versions = versions.copy()
+
+    for v in operating_versions:
+        if v.isDev or v.isUnstable:
+            keep_list.append(v)
+    
+    for v in keep_list:
+        operating_versions.remove(v)
+
+    # Its possible that there are no versions of the javadoc that we dont want to keep
+    # so we return early if thats the case
+    if len(operating_versions) == 0:
+        return kill_list, keep_list
+
+    majors = set([v.x for v in operating_versions])
     max_maj = sorted(tuple(majors), reverse=True)[0]
 
     stable_by_major = {n: [] for n in majors}
-    for v in stable:
+    for v in operating_versions:
         stable_by_major[v.x].append(v)
-
-    kill_list = []
-    keep_list = []
 
     keep_list += stable_by_major.pop(max_maj)
 
@@ -195,7 +207,7 @@ def determine_javadoc_kill_keep_list(versions: list[VersionTag]):
             kill_list += vsorted
         pass
 
-    assert len(kill_list)+len(keep_list)==len(stable)
+    assert len(kill_list)+len(keep_list)==len(operating_versions)
 
     return kill_list, keep_list
 
@@ -203,8 +215,6 @@ def determine_javadoc_kill_keep_list(versions: list[VersionTag]):
 def clean_javadoc_main(repo: Path):
     javadoc_dir = repo.joinpath('javadoc')
     versions = [VersionTag.from_string(j) for j in [i for i in os.listdir(javadoc_dir) if VersionTag.is_valid_version(i)]]
-    print("Github workflows really can see new commits!")
-    print(versions)
     if len(versions) != 0:
         kill_list, keep_list = determine_javadoc_kill_keep_list(versions)
         for i in kill_list:

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.sbdc.loggerhead</groupId>
+  <artifactId>Loggerhead-java</artifactId>
+  <versioning>
+    <latest>0.0.4-dev-unstable</latest>
+    <release>0.0.4-dev-unstable</release>
+    <versions>
+      <version>0.0.4-dev-unstable</version>
+    </versions>
+    <lastUpdated>20260721034938</lastUpdated>
+  </versioning>
+</metadata>

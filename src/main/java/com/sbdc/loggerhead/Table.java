@@ -234,7 +234,7 @@ public class Table {
    */
   public Table addCompoundLogger(CompoundLogger compoundLogger) {
     loggerhead.addCompoundLogger(compoundLogger);
-    compoundLogger.initialize(path);
+    compoundLogger.initialize(this);
     return this;
   }
 

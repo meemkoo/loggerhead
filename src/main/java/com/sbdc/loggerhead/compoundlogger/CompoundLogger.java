@@ -18,6 +18,7 @@
 package com.sbdc.loggerhead.compoundlogger;
 
 import com.sbdc.loggerhead.LogMode;
+import com.sbdc.loggerhead.Table;
 
 /**
  * Interface for all CompoundLoggers. Compound loggers serve as a kind of logging wrapper for
@@ -45,5 +46,5 @@ public interface CompoundLogger {
    *
    * @param parentTable
    */
-  public abstract void initialize(String parentTable);
+  public abstract void initialize(Table parentTable);
 }

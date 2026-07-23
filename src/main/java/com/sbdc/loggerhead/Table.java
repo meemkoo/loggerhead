@@ -227,7 +227,7 @@ public class Table {
 
   /**
    * Add a compound logger to the Loggerhead instance. The compound logger is responsible for
-   * placing child loggers. See {@link CompoundLogger#initialize(String)}
+   * placing child loggers. See 
    *
    * @param compoundLogger The compound logger
    * @return This table for chaining

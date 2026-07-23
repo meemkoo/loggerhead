@@ -168,7 +168,6 @@ public class Loggerhead {
 
   /**
    * Add a compound logger to this Loggerhead instance. Note the compound logger must be initalized.
-   * See {@link CompoundLogger#initialize(String)}
    *
    * @param compoundLogger the CompoundLogger
    * @return Loggerhead instance for chaining

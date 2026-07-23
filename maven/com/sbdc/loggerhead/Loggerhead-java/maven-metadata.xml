@@ -3,13 +3,14 @@
   <groupId>com.sbdc.loggerhead</groupId>
   <artifactId>Loggerhead-java</artifactId>
   <versioning>
-    <latest>0.0.6</latest>
-    <release>0.0.6</release>
+    <latest>0.0.4-dev-unstable</latest>
+    <release>0.0.4-dev-unstable</release>
     <versions>
+      <version>0.0.7-dev-unstable</version>
+      <version>0.0.6</version>
       <version>0.0.5-unstable</version>
       <version>0.0.4-dev-unstable</version>
-      <version>0.0.6</version>
     </versions>
-    <lastUpdated>20260721055848</lastUpdated>
+    <lastUpdated>20260723232627</lastUpdated>
   </versioning>
 </metadata>

@@ -24,9 +24,9 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.StructLogEntry;
 
-public final class PrimaryPoseLog
+public final class PrimaryPose2dLog
     extends AbstractPrimaryLog<Pose2d, StructLogEntry<Pose2d>, StructPublisher<Pose2d>> {
-  public PrimaryPoseLog(
+  public PrimaryPose2dLog(
       String key, LogMode logMode, NetworkTableInstance ntInstance, DataLog dataLog) {
     super(key, logMode, ntInstance, dataLog);
     setLogEntry(StructLogEntry.create(dataLog, key, Pose2d.struct));

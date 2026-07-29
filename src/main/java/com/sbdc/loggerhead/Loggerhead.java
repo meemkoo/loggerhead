@@ -22,7 +22,7 @@ import com.sbdc.loggerhead.primarylogger.AbstractPrimaryLog;
 import com.sbdc.loggerhead.primarylogger.PrimaryBooleanLog;
 import com.sbdc.loggerhead.primarylogger.PrimaryDoubleLog;
 import com.sbdc.loggerhead.primarylogger.PrimaryIntegerLog;
-import com.sbdc.loggerhead.primarylogger.PrimaryPoseLog;
+import com.sbdc.loggerhead.primarylogger.PrimaryPose2dLog;
 import com.sbdc.loggerhead.primarylogger.PrimaryStringLog;
 import com.sbdc.loggerhead.primarylogger.PrimarySwerveStateLog;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -73,7 +73,7 @@ public class Loggerhead {
   private final List<SourceUpdateMap<PrimaryDoubleLog, Double>> doubleLogs = new ArrayList<>();
   private final List<SourceUpdateMap<PrimaryIntegerLog, Integer>> integerLogs = new ArrayList<>();
   private final List<SourceUpdateMap<PrimaryBooleanLog, Boolean>> booleanLogs = new ArrayList<>();
-  private final List<SourceUpdateMap<PrimaryPoseLog, Pose2d>> poseLogs = new ArrayList<>();
+  private final List<SourceUpdateMap<PrimaryPose2dLog, Pose2d>> poseLogs = new ArrayList<>();
   private final List<SourceUpdateMap<PrimarySwerveStateLog, SwerveModuleState[]>> swerveStateLogs =
       new ArrayList<>();
 
@@ -148,8 +148,8 @@ public class Loggerhead {
   }
 
   public Loggerhead addPoseLogger(String key, LogMode mode, Supplier<Pose2d> poseGetter) {
-    PrimaryPoseLog logPub = new PrimaryPoseLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryPoseLog, Pose2d> compundLogger =
+    PrimaryPose2dLog logPub = new PrimaryPose2dLog(key, mode, ntInst, log);
+    SourceUpdateMap<PrimaryPose2dLog, Pose2d> compundLogger =
         new SourceUpdateMap<>(this, logPub, poseGetter);
     poseLogs.add(compundLogger);
 

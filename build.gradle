@@ -60,6 +60,24 @@ apply from: 'releaseUrls.gradle'
 // WPILib Version
 ext.wpilibVersion = "2026.+"
 
+pythonTask('runCodeGen') {
+  args = [
+    "$rootDir/generators/run_code_gen.py"
+  ]
+}
+
+apply from: 'releaseUrls.gradle'
+apply from: 'python.gradle'
+
+// WPILib Version
+ext.wpilibVersion = "2026.+"
+
+pythonTask('runCodeGen') {
+  args = [
+    "$rootDir/generators/run_code_gen.py"
+  ]
+}
+
 repositories {
   mavenCentral()
 }
@@ -147,7 +165,7 @@ model {
 }
 
 apply from: 'publish.gradle'
-
+build.dependsOn runCodeGen
 build.dependsOn spotlessApply
 build.finalizedBy publish
 

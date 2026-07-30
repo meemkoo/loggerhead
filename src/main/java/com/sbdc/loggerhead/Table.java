@@ -1,26 +1,25 @@
 /*
-  Copyright (C) 2026  Evan Hansen
+ Copyright (C) 2026  Evan Hansen
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Affero General Public License as published
-  by the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as published
+ by the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU Affero General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
 
-  You should have received a copy of the GNU Affero General Public License
-  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
+ You should have received a copy of the GNU Affero General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 package com.sbdc.loggerhead;
 
 import com.sbdc.loggerhead.compoundlogger.CompoundLogger;
 import com.sbdc.loggerhead.exceptions.LoggingTableRootDefinedError;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.struct.Struct;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -198,36 +197,21 @@ public class Table {
     return this;
   }
 
-  /**
-   * Add a pose logger to the Loggerhead instance, prefixed with this tables full path
-   *
-   * @param key Name of the pose logger without slashes
-   * @param mode Logging mode for the pose logger
-   * @param poseGetter Callable providing the pose
-   * @return This table for chaining
-   */
-  public Table addPoseLogger(String key, LogMode mode, Supplier<Pose2d> poseGetter) {
-    loggerhead.addPoseLogger(path + key, mode, poseGetter);
+  public <T> Table addStructLogger(
+      String key, LogMode mode, Supplier<T> structGetter, Struct<T> struct) {
+    loggerhead.addStructLogger(path + key, mode, structGetter, struct);
     return this;
   }
 
-  /**
-   * Add a swerve state logger to the Loggerhead instance, prefixed with this tables full path
-   *
-   * @param key Name of the swerve state logger without slashes
-   * @param mode Logging mode for the swerve state logger
-   * @param moduleStateGetter Callable providing the swerve state
-   * @return This table for chaining
-   */
-  public Table addSwerveStateLogger(
-      String key, LogMode mode, Supplier<SwerveModuleState[]> moduleStateGetter) {
-    loggerhead.addSwerveStateLogger(path + key, mode, moduleStateGetter);
+  public <T> Table addStructLoggerArray(
+      String key, LogMode mode, Supplier<T[]> structGetter, Struct<T> struct) {
+    loggerhead.addStructArrayLogger(path + key, mode, structGetter, struct);
     return this;
   }
 
   /**
    * Add a compound logger to the Loggerhead instance. The compound logger is responsible for
-   * placing child loggers. See 
+   * placing child loggers. See
    *
    * @param compoundLogger The compound logger
    * @return This table for chaining

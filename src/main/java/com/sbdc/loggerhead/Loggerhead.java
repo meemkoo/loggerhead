@@ -1,19 +1,19 @@
 /*
-  Copyright (C) 2026  Evan Hansen
+ Copyright (C) 2026  Evan Hansen
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Affero General Public License as published
-  by the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as published
+ by the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU Affero General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
 
-  You should have received a copy of the GNU Affero General Public License
-  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
+ You should have received a copy of the GNU Affero General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 package com.sbdc.loggerhead;
 
@@ -22,13 +22,12 @@ import com.sbdc.loggerhead.primarylogger.AbstractPrimaryLog;
 import com.sbdc.loggerhead.primarylogger.PrimaryBooleanLog;
 import com.sbdc.loggerhead.primarylogger.PrimaryDoubleLog;
 import com.sbdc.loggerhead.primarylogger.PrimaryIntegerLog;
-import com.sbdc.loggerhead.primarylogger.PrimaryPose2dLog;
 import com.sbdc.loggerhead.primarylogger.PrimaryStringLog;
-import com.sbdc.loggerhead.primarylogger.PrimarySwerveStateLog;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import com.sbdc.loggerhead.primarylogger.PrimaryStructArrayLog;
+import com.sbdc.loggerhead.primarylogger.PrimaryStructLog;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.struct.Struct;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -73,9 +72,14 @@ public class Loggerhead {
   private final List<SourceUpdateMap<PrimaryDoubleLog, Double>> doubleLogs = new ArrayList<>();
   private final List<SourceUpdateMap<PrimaryIntegerLog, Integer>> integerLogs = new ArrayList<>();
   private final List<SourceUpdateMap<PrimaryBooleanLog, Boolean>> booleanLogs = new ArrayList<>();
-  private final List<SourceUpdateMap<PrimaryPose2dLog, Pose2d>> poseLogs = new ArrayList<>();
-  private final List<SourceUpdateMap<PrimarySwerveStateLog, SwerveModuleState[]>> swerveStateLogs =
+  // private final List<SourceUpdateMap<PrimaryPose2dLog, Pose2d>> poseLogs = new ArrayList<>();
+  private final List<SourceUpdateMap<? extends PrimaryStructLog<?, ?>, ?>> structLogs =
       new ArrayList<>();
+  private final List<SourceUpdateMap<? extends PrimaryStructArrayLog<?, ?>, ?>> structArrayLogs =
+      new ArrayList<>();
+  // private final List<SourceUpdateMap<PrimarySwerveStateLog, SwerveModuleState[]>> swerveStateLogs
+  // =
+  //     new ArrayList<>();
 
   private final List<CompoundLogger> compoundLoggers = new ArrayList<>();
 
@@ -147,22 +151,33 @@ public class Loggerhead {
     return this;
   }
 
-  public Loggerhead addPoseLogger(String key, LogMode mode, Supplier<Pose2d> poseGetter) {
-    PrimaryPose2dLog logPub = new PrimaryPose2dLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryPose2dLog, Pose2d> compundLogger =
-        new SourceUpdateMap<>(this, logPub, poseGetter);
-    poseLogs.add(compundLogger);
+  // public Loggerhead addSwerveStateLogger(
+  //     String key, LogMode mode, Supplier<SwerveModuleState[]> moduleStateGetter) {
+  //   PrimarySwerveStateLog logPub = new PrimarySwerveStateLog(key, mode, ntInst, log);
+  //   SourceUpdateMap<PrimarySwerveStateLog, SwerveModuleState[]> compundLogger =
+  //       new SourceUpdateMap<>(this, logPub, moduleStateGetter);
+  //   swerveStateLogs.add(compundLogger);
+
+  //   return this;
+  // }
+
+  public <T, S extends Struct<T>> Loggerhead addStructLogger(
+      String key, LogMode mode, Supplier<T> moduleStateGetter, Struct<T> struct) {
+    PrimaryStructLog<T, S> logPub = new PrimaryStructLog<>(key, mode, ntInst, log, struct);
+    SourceUpdateMap<PrimaryStructLog<T, S>, T> compundLogger =
+        new SourceUpdateMap<>(this, logPub, moduleStateGetter);
+    structLogs.add(compundLogger);
 
     return this;
   }
 
-  public Loggerhead addSwerveStateLogger(
-      String key, LogMode mode, Supplier<SwerveModuleState[]> moduleStateGetter) {
-    PrimarySwerveStateLog logPub = new PrimarySwerveStateLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimarySwerveStateLog, SwerveModuleState[]> compundLogger =
-        new SourceUpdateMap<>(this, logPub, moduleStateGetter);
-    swerveStateLogs.add(compundLogger);
-
+  public <T, S extends Struct<T>> Loggerhead addStructArrayLogger(
+      String key, LogMode mode, Supplier<T[]> valueGetter, Struct<T> struct) {
+    PrimaryStructArrayLog<T, S> logPub =
+        new PrimaryStructArrayLog<>(key, mode, ntInst, log, struct);
+    SourceUpdateMap<PrimaryStructArrayLog<T, S>, T[]> mapping =
+        new SourceUpdateMap<>(this, logPub, valueGetter);
+    structArrayLogs.add(mapping);
     return this;
   }
 
@@ -201,8 +216,10 @@ public class Loggerhead {
     doubleLogs.clear();
     integerLogs.clear();
     booleanLogs.clear();
-    poseLogs.clear();
-    swerveStateLogs.clear();
+    structLogs.clear();
+    structArrayLogs.clear();
+    // poseLogs.clear();
+    // swerveStateLogs.clear();
     compoundLoggers.clear();
 
     rootTable.clearSubtables();
@@ -226,8 +243,8 @@ public class Loggerhead {
     doubleLogs.forEach(SourceUpdateMap::update);
     integerLogs.forEach(SourceUpdateMap::update);
     booleanLogs.forEach(SourceUpdateMap::update);
-    poseLogs.forEach(SourceUpdateMap::update);
-    swerveStateLogs.forEach(SourceUpdateMap::update);
+    structLogs.forEach(SourceUpdateMap::update);
+    structArrayLogs.forEach(SourceUpdateMap::update);
     compoundLoggers.forEach(CompoundLogger::update);
   }
 

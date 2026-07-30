@@ -218,8 +218,6 @@ public class Loggerhead {
     booleanLogs.clear();
     structLogs.clear();
     structArrayLogs.clear();
-    // poseLogs.clear();
-    // swerveStateLogs.clear();
     compoundLoggers.clear();
 
     rootTable.clearSubtables();

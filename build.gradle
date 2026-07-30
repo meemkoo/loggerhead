@@ -56,9 +56,16 @@ spotless {
 }
 
 apply from: 'releaseUrls.gradle'
+apply from: 'python.gradle'
 
 // WPILib Version
 ext.wpilibVersion = "2026.+"
+
+pythonTask('runCodeGen') {
+  args = [
+    "$rootDir/generators/run_code_gen.py"
+  ]
+}
 
 repositories {
   mavenCentral()
@@ -131,8 +138,6 @@ javadoc {
   }
 }
 
-build.dependsOn spotlessApply
-
 ext.getCurrentArch = {
   return NativePlatforms.desktop
 }
@@ -148,7 +153,10 @@ model {
 
 apply from: 'publish.gradle'
 
+
+build.dependsOn runCodeGen
 build.dependsOn spotlessApply
+tasks.named('spotlessApply') {mustRunAfter('runCodeGen')}
 build.finalizedBy publish
 
 wrapper {

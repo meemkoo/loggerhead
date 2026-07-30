@@ -1,0 +1,32 @@
+import org.gradle.internal.os.OperatingSystem
+
+def isWindows = OperatingSystem.current().isWindows()
+def venvDir = file("$buildDir/venv")
+def venvPython = isWindows ? file("$venvDir/Scripts/python.exe") : file("$venvDir/bin/python")
+
+def systemPythonCommand = isWindows ? ['python3'] : ['python3']
+
+task createPythonVenv(type: Exec) {
+  description = 'Creates the project-local Python virtual environment if it does not already exist.'
+  group = 'Python'
+
+  def venvMarker = file("$venvDir/pyvenv.cfg")
+  outputs.file venvMarker
+
+  onlyIf { !venvMarker.exists() }
+
+  commandLine(*systemPythonCommand, '-m', 'venv', venvDir.absolutePath)
+
+  doFirst {
+    logger.lifecycle("Creating Python venv at ${venvDir}")
+  }
+}
+
+ext.pythonTask = { String name, Closure config ->
+  tasks.create(name, Exec) {
+    group = 'Python'
+    dependsOn createPythonVenv
+    executable venvPython.absolutePath
+    configure config
+  }
+}

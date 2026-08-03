@@ -94,16 +94,19 @@ def generate_table_java_inject():
   methods: list[JavaMethod] = []
 
   for cd in cds:
+    getterCamel = f"{cd.full_class_name}"
+    getterCamel = getterCamel[0].lower() + getterCamel[1:]
+
     javadoc = f"""Add a {cd.full_class_name} logger to the Loggerhead instance, prefixed with this tables full path
 
 @param key Name of the string logger without slashes
 @param mode Logging mode for the string logger
-@param stringGetter Callable providing the string
+@param {getterCamel}Getter Callable providing the string
 @return This table for chaining
 """
     
     body = f"""
-loggerhead.add{cd.full_class_name}Logger(path + key, mode, {cd.full_class_name}Getter);
+loggerhead.add{cd.full_class_name}Logger(path + key, mode, {getterCamel}Getter);
 return this;
 """
 
@@ -112,7 +115,7 @@ return this;
                         params=[
                           JavaDeclaration("key", "String"),
                           JavaDeclaration("mode", "LogMode"),
-                          JavaDeclaration(f"{cd.full_class_name}Getter", f"Supplier<{cd.base_type if cd.is_array else cd.wrapper_type}>"), 
+                          JavaDeclaration(f"{getterCamel}Getter", f"Supplier<{cd.base_type if cd.is_array else cd.wrapper_type}>"), 
                         ], jdoc=javadoc)
     methods.append(method)
 

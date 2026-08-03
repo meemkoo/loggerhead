@@ -74,8 +74,10 @@ public class Loggerhead {
 
   // private final List<SourceUpdateMap<PrimaryStringLog, String>> stringLogs = new ArrayList<>();
   // private final List<SourceUpdateMap<PrimaryDoubleLog, Double>> doubleLogs = new ArrayList<>();
-  // private final List<SourceUpdateMap<PrimaryIntegerLog, Integer>> integerLogs = new ArrayList<>();
-  // private final List<SourceUpdateMap<PrimaryBooleanLog, Boolean>> booleanLogs = new ArrayList<>();
+  // private final List<SourceUpdateMap<PrimaryIntegerLog, Integer>> integerLogs = new
+  // ArrayList<>();
+  // private final List<SourceUpdateMap<PrimaryBooleanLog, Boolean>> booleanLogs = new
+  // ArrayList<>();
   // // private final List<SourceUpdateMap<PrimaryPose2dLog, Pose2d>> poseLogs = new ArrayList<>();
   // private final List<SourceUpdateMap<? extends PrimaryStructLog<?, ?>, ?>> structLogs =
   //     new ArrayList<>();
@@ -122,186 +124,177 @@ public class Loggerhead {
     return rootTable;
   }
 
+  // LGH BEGIN GENERATED 596a96cc7bf9108cd896f33c44aedc8a
 
+  /**
+   * * Add a Boolean logger to the Loggerhead instance, prefixed with this tables full path
+   *
+   * @param key Name of the string logger without slashes
+   * @param mode Logging mode for the string logger
+   * @param booleanGetter Callable providing the string
+   * @return This table for chaining
+   */
+  public Loggerhead addBooleanLogger(String key, LogMode mode, Supplier<Boolean> booleanGetter) {
 
+    PrimaryBooleanLog logPub = new PrimaryBooleanLog(key, mode, ntInst, log);
+    SourceUpdateMap<PrimaryBooleanLog, Boolean> compundLogger =
+        new SourceUpdateMap<>(this, logPub, booleanGetter);
+    primaryLogs.add(compundLogger);
 
+    return this;
+  }
 
+  /**
+   * * Add a String logger to the Loggerhead instance, prefixed with this tables full path
+   *
+   * @param key Name of the string logger without slashes
+   * @param mode Logging mode for the string logger
+   * @param stringGetter Callable providing the string
+   * @return This table for chaining
+   */
+  public Loggerhead addStringLogger(String key, LogMode mode, Supplier<String> stringGetter) {
 
+    PrimaryStringLog logPub = new PrimaryStringLog(key, mode, ntInst, log);
+    SourceUpdateMap<PrimaryStringLog, String> compundLogger =
+        new SourceUpdateMap<>(this, logPub, stringGetter);
+    primaryLogs.add(compundLogger);
 
-// LGH BEGIN GENERATED 596a96cc7bf9108cd896f33c44aedc8a
-/**
- * Add a Boolean logger to the Loggerhead instance, prefixed with this tables full path
- * 
- * @param key Name of the string logger without slashes
- * @param mode Logging mode for the string logger
- * @param booleanGetter Callable providing the string
- * @return This table for chaining
-*/
+    return this;
+  }
 
-public Loggerhead addBooleanLogger( String key, LogMode mode, Supplier<Boolean> booleanGetter) { 
+  /**
+   * * Add a Integer logger to the Loggerhead instance, prefixed with this tables full path
+   *
+   * @param key Name of the string logger without slashes
+   * @param mode Logging mode for the string logger
+   * @param integerGetter Callable providing the string
+   * @return This table for chaining
+   */
+  public Loggerhead addIntegerLogger(String key, LogMode mode, Supplier<Integer> integerGetter) {
 
-PrimaryBooleanLog logPub = new PrimaryBooleanLog(key, mode, ntInst, log);
-SourceUpdateMap<PrimaryBooleanLog, Boolean> compundLogger =
-    new SourceUpdateMap<>(this, logPub, booleanGetter);
-primaryLogs.add(compundLogger);
+    PrimaryIntegerLog logPub = new PrimaryIntegerLog(key, mode, ntInst, log);
+    SourceUpdateMap<PrimaryIntegerLog, Integer> compundLogger =
+        new SourceUpdateMap<>(this, logPub, integerGetter);
+    primaryLogs.add(compundLogger);
 
-return this;
- 
- }
-/**
- * Add a String logger to the Loggerhead instance, prefixed with this tables full path
- * 
- * @param key Name of the string logger without slashes
- * @param mode Logging mode for the string logger
- * @param stringGetter Callable providing the string
- * @return This table for chaining
-*/
+    return this;
+  }
 
-public Loggerhead addStringLogger( String key, LogMode mode, Supplier<String> stringGetter) { 
+  /**
+   * * Add a Double logger to the Loggerhead instance, prefixed with this tables full path
+   *
+   * @param key Name of the string logger without slashes
+   * @param mode Logging mode for the string logger
+   * @param doubleGetter Callable providing the string
+   * @return This table for chaining
+   */
+  public Loggerhead addDoubleLogger(String key, LogMode mode, Supplier<Double> doubleGetter) {
 
-PrimaryStringLog logPub = new PrimaryStringLog(key, mode, ntInst, log);
-SourceUpdateMap<PrimaryStringLog, String> compundLogger =
-    new SourceUpdateMap<>(this, logPub, stringGetter);
-primaryLogs.add(compundLogger);
+    PrimaryDoubleLog logPub = new PrimaryDoubleLog(key, mode, ntInst, log);
+    SourceUpdateMap<PrimaryDoubleLog, Double> compundLogger =
+        new SourceUpdateMap<>(this, logPub, doubleGetter);
+    primaryLogs.add(compundLogger);
 
-return this;
- 
- }
-/**
- * Add a Integer logger to the Loggerhead instance, prefixed with this tables full path
- * 
- * @param key Name of the string logger without slashes
- * @param mode Logging mode for the string logger
- * @param integerGetter Callable providing the string
- * @return This table for chaining
-*/
+    return this;
+  }
 
-public Loggerhead addIntegerLogger( String key, LogMode mode, Supplier<Integer> integerGetter) { 
+  /**
+   * * Add a BooleanArray logger to the Loggerhead instance, prefixed with this tables full path
+   *
+   * @param key Name of the string logger without slashes
+   * @param mode Logging mode for the string logger
+   * @param booleanArrayGetter Callable providing the string
+   * @return This table for chaining
+   */
+  public Loggerhead addBooleanArrayLogger(
+      String key, LogMode mode, Supplier<boolean[]> booleanArrayGetter) {
 
-PrimaryIntegerLog logPub = new PrimaryIntegerLog(key, mode, ntInst, log);
-SourceUpdateMap<PrimaryIntegerLog, Integer> compundLogger =
-    new SourceUpdateMap<>(this, logPub, integerGetter);
-primaryLogs.add(compundLogger);
+    PrimaryBooleanArrayLog logPub = new PrimaryBooleanArrayLog(key, mode, ntInst, log);
+    SourceUpdateMap<PrimaryBooleanArrayLog, boolean[]> compundLogger =
+        new SourceUpdateMap<>(this, logPub, booleanArrayGetter);
+    primaryLogs.add(compundLogger);
 
-return this;
- 
- }
-/**
- * Add a Double logger to the Loggerhead instance, prefixed with this tables full path
- * 
- * @param key Name of the string logger without slashes
- * @param mode Logging mode for the string logger
- * @param doubleGetter Callable providing the string
- * @return This table for chaining
-*/
+    return this;
+  }
 
-public Loggerhead addDoubleLogger( String key, LogMode mode, Supplier<Double> doubleGetter) { 
+  /**
+   * * Add a StringArray logger to the Loggerhead instance, prefixed with this tables full path
+   *
+   * @param key Name of the string logger without slashes
+   * @param mode Logging mode for the string logger
+   * @param stringArrayGetter Callable providing the string
+   * @return This table for chaining
+   */
+  public Loggerhead addStringArrayLogger(
+      String key, LogMode mode, Supplier<String[]> stringArrayGetter) {
 
-PrimaryDoubleLog logPub = new PrimaryDoubleLog(key, mode, ntInst, log);
-SourceUpdateMap<PrimaryDoubleLog, Double> compundLogger =
-    new SourceUpdateMap<>(this, logPub, doubleGetter);
-primaryLogs.add(compundLogger);
+    PrimaryStringArrayLog logPub = new PrimaryStringArrayLog(key, mode, ntInst, log);
+    SourceUpdateMap<PrimaryStringArrayLog, String[]> compundLogger =
+        new SourceUpdateMap<>(this, logPub, stringArrayGetter);
+    primaryLogs.add(compundLogger);
 
-return this;
- 
- }
-/**
- * Add a BooleanArray logger to the Loggerhead instance, prefixed with this tables full path
- * 
- * @param key Name of the string logger without slashes
- * @param mode Logging mode for the string logger
- * @param booleanArrayGetter Callable providing the string
- * @return This table for chaining
-*/
+    return this;
+  }
 
-public Loggerhead addBooleanArrayLogger( String key, LogMode mode, Supplier<boolean[]> booleanArrayGetter) { 
+  /**
+   * * Add a IntegerArray logger to the Loggerhead instance, prefixed with this tables full path
+   *
+   * @param key Name of the string logger without slashes
+   * @param mode Logging mode for the string logger
+   * @param integerArrayGetter Callable providing the string
+   * @return This table for chaining
+   */
+  public Loggerhead addIntegerArrayLogger(
+      String key, LogMode mode, Supplier<long[]> integerArrayGetter) {
 
-PrimaryBooleanArrayLog logPub = new PrimaryBooleanArrayLog(key, mode, ntInst, log);
-SourceUpdateMap<PrimaryBooleanArrayLog, boolean[]> compundLogger =
-    new SourceUpdateMap<>(this, logPub, booleanArrayGetter);
-primaryLogs.add(compundLogger);
+    PrimaryIntegerArrayLog logPub = new PrimaryIntegerArrayLog(key, mode, ntInst, log);
+    SourceUpdateMap<PrimaryIntegerArrayLog, long[]> compundLogger =
+        new SourceUpdateMap<>(this, logPub, integerArrayGetter);
+    primaryLogs.add(compundLogger);
 
-return this;
- 
- }
-/**
- * Add a StringArray logger to the Loggerhead instance, prefixed with this tables full path
- * 
- * @param key Name of the string logger without slashes
- * @param mode Logging mode for the string logger
- * @param stringArrayGetter Callable providing the string
- * @return This table for chaining
-*/
+    return this;
+  }
 
-public Loggerhead addStringArrayLogger( String key, LogMode mode, Supplier<String[]> stringArrayGetter) { 
+  /**
+   * * Add a DoubleArray logger to the Loggerhead instance, prefixed with this tables full path
+   *
+   * @param key Name of the string logger without slashes
+   * @param mode Logging mode for the string logger
+   * @param doubleArrayGetter Callable providing the string
+   * @return This table for chaining
+   */
+  public Loggerhead addDoubleArrayLogger(
+      String key, LogMode mode, Supplier<double[]> doubleArrayGetter) {
 
-PrimaryStringArrayLog logPub = new PrimaryStringArrayLog(key, mode, ntInst, log);
-SourceUpdateMap<PrimaryStringArrayLog, String[]> compundLogger =
-    new SourceUpdateMap<>(this, logPub, stringArrayGetter);
-primaryLogs.add(compundLogger);
+    PrimaryDoubleArrayLog logPub = new PrimaryDoubleArrayLog(key, mode, ntInst, log);
+    SourceUpdateMap<PrimaryDoubleArrayLog, double[]> compundLogger =
+        new SourceUpdateMap<>(this, logPub, doubleArrayGetter);
+    primaryLogs.add(compundLogger);
 
-return this;
- 
- }
-/**
- * Add a IntegerArray logger to the Loggerhead instance, prefixed with this tables full path
- * 
- * @param key Name of the string logger without slashes
- * @param mode Logging mode for the string logger
- * @param integerArrayGetter Callable providing the string
- * @return This table for chaining
-*/
+    return this;
+  }
 
-public Loggerhead addIntegerArrayLogger( String key, LogMode mode, Supplier<long[]> integerArrayGetter) { 
+  public <T, S extends Struct<T>> Loggerhead addStructLogger(
+      String key, LogMode mode, Supplier<T> moduleStateGetter, Struct<T> struct) {
+    PrimaryStructLog<T, S> logPub = new PrimaryStructLog<>(key, mode, ntInst, log, struct);
+    SourceUpdateMap<PrimaryStructLog<T, S>, T> compundLogger =
+        new SourceUpdateMap<>(this, logPub, moduleStateGetter);
+    primaryLogs.add(compundLogger);
 
-PrimaryIntegerArrayLog logPub = new PrimaryIntegerArrayLog(key, mode, ntInst, log);
-SourceUpdateMap<PrimaryIntegerArrayLog, long[]> compundLogger =
-    new SourceUpdateMap<>(this, logPub, integerArrayGetter);
-primaryLogs.add(compundLogger);
+    return this;
+  }
 
-return this;
- 
- }
-/**
- * Add a DoubleArray logger to the Loggerhead instance, prefixed with this tables full path
- * 
- * @param key Name of the string logger without slashes
- * @param mode Logging mode for the string logger
- * @param doubleArrayGetter Callable providing the string
- * @return This table for chaining
-*/
+  public <T, S extends Struct<T>> Loggerhead addStructArrayLogger(
+      String key, LogMode mode, Supplier<T[]> valueGetter, Struct<T> struct) {
+    PrimaryStructArrayLog<T, S> logPub =
+        new PrimaryStructArrayLog<>(key, mode, ntInst, log, struct);
+    SourceUpdateMap<PrimaryStructArrayLog<T, S>, T[]> mapping =
+        new SourceUpdateMap<>(this, logPub, valueGetter);
+    primaryLogs.add(mapping);
+    return this;
+  }
 
-public Loggerhead addDoubleArrayLogger( String key, LogMode mode, Supplier<double[]> doubleArrayGetter) { 
-
-PrimaryDoubleArrayLog logPub = new PrimaryDoubleArrayLog(key, mode, ntInst, log);
-SourceUpdateMap<PrimaryDoubleArrayLog, double[]> compundLogger =
-    new SourceUpdateMap<>(this, logPub, doubleArrayGetter);
-primaryLogs.add(compundLogger);
-
-return this;
- 
- }
-public <T, S extends Struct<T>> Loggerhead addStructLogger(
-String key, LogMode mode, Supplier<T> moduleStateGetter, Struct<T> struct) {
-PrimaryStructLog<T, S> logPub = new PrimaryStructLog<>(key, mode, ntInst, log, struct);
-SourceUpdateMap<PrimaryStructLog<T, S>, T> compundLogger =
-    new SourceUpdateMap<>(this, logPub, moduleStateGetter);
-primaryLogs.add(compundLogger);
-
-return this;
-}
-
-public <T, S extends Struct<T>> Loggerhead addStructArrayLogger(
-  String key, LogMode mode, Supplier<T[]> valueGetter, Struct<T> struct) {
-PrimaryStructArrayLog<T, S> logPub =
-    new PrimaryStructArrayLog<>(key, mode, ntInst, log, struct);
-SourceUpdateMap<PrimaryStructArrayLog<T, S>, T[]> mapping =
-    new SourceUpdateMap<>(this, logPub, valueGetter);
-primaryLogs.add(mapping);
-return this;
-}
-
-// LGH END GENERATED 596a96cc7bf9108cd896f33c44aedc8a
+  // LGH END GENERATED 596a96cc7bf9108cd896f33c44aedc8a
 
   /**
    * Add a compound logger to this Loggerhead instance. Note the compound logger must be initalized.

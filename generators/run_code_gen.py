@@ -72,7 +72,8 @@ class JavaMethod:
     params = ','.join(map(lambda param: param.generate(), self.params))
     annotations = '\n'.join([f"@{i}" for i in self.annotations])
     jdoc = '\n'.join([" * " + i for i in self.jdoc.splitlines()])
-    return f"/**\n{jdoc}\n*/\n{annotations}\n{mods} {self.return_} {self.name}({params}) {{ \n{self.body} \n }}"
+    jdoc = '/**' + jdoc + '*/' if self.jdoc else ''
+    return f"\n{jdoc}\n\n{annotations}\n{mods} {self.return_} {self.name}({params}) {{ \n{self.body} \n }}"
 
 @dataclass
 class JavaField:

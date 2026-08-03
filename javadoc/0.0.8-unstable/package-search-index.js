@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.sbdc.loggerhead"},{"l":"com.sbdc.loggerhead.compoundlogger"},{"l":"com.sbdc.loggerhead.configuration"},{"l":"com.sbdc.loggerhead.exceptions"},{"l":"com.sbdc.loggerhead.primarylogger"}];updateSearchResults();

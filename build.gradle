@@ -159,8 +159,25 @@ model {
 }
 
 apply from: 'publish.gradle'
-build.dependsOn runCodeGen
+
+compileJava.dependsOn runCodeGen
+
+// build.dependsOn runCodeGen
 build.dependsOn spotlessApply
+
+// gradle.taskGraph.whenReady { taskGraph ->
+//     def allTasks = taskGraph.allTasks
+//     if (!allTasks.isEmpty()) {
+//         def firstTask = allTasks.first()
+//         if (firstTask.name != 'runCodeGen') {
+//             firstTask.mustRunAfter(tasks.named('runCodeGen'))
+//         }
+//     }
+// }
+
+// tasks.named('spotlessApply') {mustRunAfter('runCodeGen')}
+
+
 build.finalizedBy publish
 
 wrapper {

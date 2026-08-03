@@ -20,28 +20,28 @@
 package com.sbdc.loggerhead.primarylogger;
 
 import com.sbdc.loggerhead.LogMode;
-import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.IntegerArrayPublisher;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.datalog.DataLog;
-import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.IntegerArrayLogEntry;
 
-public final class PrimaryDoubleLog
-    extends AbstractPrimaryLog<Double, DoubleLogEntry, DoublePublisher> {
+public final class PrimaryIntegerArrayLog
+    extends AbstractPrimaryLog<long[], IntegerArrayLogEntry, IntegerArrayPublisher> {
 
-  public PrimaryDoubleLog(
+  public PrimaryIntegerArrayLog(
       String key, LogMode logMode, NetworkTableInstance ntInstance, DataLog dataLog) {
     super(key, logMode, ntInstance, dataLog);
-    setLogEntry(new DoubleLogEntry(dataLog, key));
-    setPublisher(ntInstance.getDoubleTopic(key).publish());
+    setLogEntry(new IntegerArrayLogEntry(dataLog, key));
+    setPublisher(ntInstance.getIntegerArrayTopic(key).publish());
   }
 
   @Override
-  protected void updateFile(Double newValue) {
+  protected void updateFile(long[] newValue) {
     getLogEntry().append(newValue);
   }
 
   @Override
-  protected void updateNetwork(Double newValue) {
+  protected void updateNetwork(long[] newValue) {
     getPublisher().accept(newValue);
   }
 }

@@ -160,7 +160,8 @@ model {
 
 apply from: 'publish.gradle'
 
-compileJava.dependsOn runCodeGen
+// TODO Decide if running code gen automatially is for the best or not
+// compileJava.dependsOn runCodeGen
 
 // build.dependsOn runCodeGen
 build.dependsOn spotlessApply

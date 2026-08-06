@@ -24,5 +24,5 @@ public interface Loggable {
    * @param logMode
    * @param loggerhead
    */
-  public default void setupLogging(Table parentTable, LogMode logMode, Loggerhead loggerhead) {}
+  public void setupLogging(Table parentTable, LogMode logMode, Loggerhead loggerhead);
 }

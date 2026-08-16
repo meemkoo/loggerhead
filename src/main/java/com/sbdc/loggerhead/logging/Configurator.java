@@ -15,9 +15,9 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.sbdc.loggerhead;
+package com.sbdc.loggerhead.logging;
 
-import com.sbdc.loggerhead.configuration.Hook;
+import com.sbdc.loggerhead.logging.configuration.Hook;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import java.util.ArrayList;

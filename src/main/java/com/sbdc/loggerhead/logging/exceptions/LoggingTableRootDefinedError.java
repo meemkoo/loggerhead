@@ -15,14 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.sbdc.loggerhead;
+package com.sbdc.loggerhead.logging.exceptions;
 
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-
-/** Implmentation of a subsystem similar to SubsystemBase without registering to LiveWindow */
-public class LightSubsystem implements Subsystem {
-  public LightSubsystem() {
-    CommandScheduler.getInstance().registerSubsystem(this);
-  }
-}
+/** Raised when the the root table is instantiated more than one time */
+public class LoggingTableRootDefinedError extends RuntimeException {}

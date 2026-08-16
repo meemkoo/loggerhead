@@ -42,7 +42,7 @@ LOG_ENTRY_CLASS_TEMP = "{fqcls}LogEntry"
 FULL_QUALIFIED_TEMP = "Primary{fqcls}Log"
 
 IMPORT_TEMP_ALL = [
-"com.sbdc.loggerhead.LogMode",
+"com.sbdc.loggerhead.logging.LogMode",
 "edu.wpi.first.networktables.NetworkTableInstance",
 "edu.wpi.first.util.datalog.DataLog",
 ]
@@ -129,14 +129,14 @@ setPublisher(ntInstance.getStruct{arrayMaybe}Topic(key, struct).publish());
     i.params[0].type = i.params[0].type.format(bracketsMaybe='[]')
 
   single_file = JavaFile(single_class_name,
-                  package='com.sbdc.loggerhead.primarylogger',
+                  package='com.sbdc.loggerhead.logging.primarylogger',
                   imports=single_imports,
                   mods=[JavaModifiers.PUBLIC, JavaModifiers.FINAL],
                   class_decl_extension=single_extension_text,
                   fields=[],
                   methods=single_methods)
   array_file = JavaFile(array_class_name,
-                  package='com.sbdc.loggerhead.primarylogger',
+                  package='com.sbdc.loggerhead.logging.primarylogger',
                   imports=array_imports,
                   mods=[JavaModifiers.PUBLIC, JavaModifiers.FINAL],
                   class_decl_extension=array_extension_text,
@@ -225,7 +225,7 @@ def run_codegen():
     ]
 
     file = JavaFile(class_name,
-                    package='com.sbdc.loggerhead.primarylogger',
+                    package='com.sbdc.loggerhead.logging.primarylogger',
                     imports=imports,
                     mods=[JavaModifiers.PUBLIC, JavaModifiers.FINAL],
                     class_decl_extension=extension_text,

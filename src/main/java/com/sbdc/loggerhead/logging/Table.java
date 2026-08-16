@@ -15,10 +15,10 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.sbdc.loggerhead;
+package com.sbdc.loggerhead.logging;
 
-import com.sbdc.loggerhead.compoundlogger.CompoundLogger;
-import com.sbdc.loggerhead.exceptions.LoggingTableRootDefinedError;
+import com.sbdc.loggerhead.logging.compoundlogger.CompoundLogger;
+import com.sbdc.loggerhead.logging.exceptions.LoggingTableRootDefinedError;
 import edu.wpi.first.util.struct.Struct;
 import java.util.HashMap;
 import java.util.function.Consumer;
@@ -47,7 +47,7 @@ public class Table {
   /**
    * @return True if the root table has been set
    */
-  public static boolean hasRoot() {
+  public static boolean rootTableHasBeenSet() {
     return ROOT != null;
   }
 
@@ -84,7 +84,7 @@ public class Table {
    * @param loggerhead loggerhead instance
    */
   protected Table(Loggerhead loggerhead) {
-    if (hasRoot()) {
+    if (rootTableHasBeenSet()) {
       throw new LoggingTableRootDefinedError();
     }
     this.parent = this;
@@ -145,124 +145,129 @@ public class Table {
   // --- Logger adder methods ---
   // TODO: Generate these someday?
 
-  // LGH BEGIN GENERATED 596a96cc7bf9108cd896f33c44aedc8a
 
-  /**
-   * * Add a Boolean logger to the Loggerhead instance, prefixed with this tables full path
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param booleanGetter Callable providing the string
-   * @return This table for chaining
-   */
-  public Table addBooleanLogger(String key, LogMode mode, Supplier<Boolean> booleanGetter) {
 
-    loggerhead.addBooleanLogger(path + key, mode, booleanGetter);
-    return this;
-  }
+// LGH BEGIN GENERATED 596a96cc7bf9108cd896f33c44aedc8a
 
-  /**
-   * * Add a String logger to the Loggerhead instance, prefixed with this tables full path
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param stringGetter Callable providing the string
-   * @return This table for chaining
-   */
-  public Table addStringLogger(String key, LogMode mode, Supplier<String> stringGetter) {
+/** * Add a Boolean logger to the Loggerhead instance, prefixed with this tables full path
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param booleanGetter Callable providing the string
+ * @return This table for chaining*/
 
-    loggerhead.addStringLogger(path + key, mode, stringGetter);
-    return this;
-  }
 
-  /**
-   * * Add a Integer logger to the Loggerhead instance, prefixed with this tables full path
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param integerGetter Callable providing the string
-   * @return This table for chaining
-   */
-  public Table addIntegerLogger(String key, LogMode mode, Supplier<Integer> integerGetter) {
+public Table addBooleanLogger( String key, LogMode mode, Supplier<Boolean> booleanGetter) { 
 
-    loggerhead.addIntegerLogger(path + key, mode, integerGetter);
-    return this;
-  }
+loggerhead.addBooleanLogger(path + key, mode, booleanGetter);
+return this;
+ 
+ }
 
-  /**
-   * * Add a Double logger to the Loggerhead instance, prefixed with this tables full path
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param doubleGetter Callable providing the string
-   * @return This table for chaining
-   */
-  public Table addDoubleLogger(String key, LogMode mode, Supplier<Double> doubleGetter) {
+/** * Add a String logger to the Loggerhead instance, prefixed with this tables full path
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param stringGetter Callable providing the string
+ * @return This table for chaining*/
 
-    loggerhead.addDoubleLogger(path + key, mode, doubleGetter);
-    return this;
-  }
 
-  /**
-   * * Add a BooleanArray logger to the Loggerhead instance, prefixed with this tables full path
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param booleanArrayGetter Callable providing the string
-   * @return This table for chaining
-   */
-  public Table addBooleanArrayLogger(
-      String key, LogMode mode, Supplier<boolean[]> booleanArrayGetter) {
+public Table addStringLogger( String key, LogMode mode, Supplier<String> stringGetter) { 
 
-    loggerhead.addBooleanArrayLogger(path + key, mode, booleanArrayGetter);
-    return this;
-  }
+loggerhead.addStringLogger(path + key, mode, stringGetter);
+return this;
+ 
+ }
 
-  /**
-   * * Add a StringArray logger to the Loggerhead instance, prefixed with this tables full path
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param stringArrayGetter Callable providing the string
-   * @return This table for chaining
-   */
-  public Table addStringArrayLogger(
-      String key, LogMode mode, Supplier<String[]> stringArrayGetter) {
+/** * Add a Integer logger to the Loggerhead instance, prefixed with this tables full path
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param integerGetter Callable providing the string
+ * @return This table for chaining*/
 
-    loggerhead.addStringArrayLogger(path + key, mode, stringArrayGetter);
-    return this;
-  }
 
-  /**
-   * * Add a IntegerArray logger to the Loggerhead instance, prefixed with this tables full path
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param integerArrayGetter Callable providing the string
-   * @return This table for chaining
-   */
-  public Table addIntegerArrayLogger(
-      String key, LogMode mode, Supplier<long[]> integerArrayGetter) {
+public Table addIntegerLogger( String key, LogMode mode, Supplier<Integer> integerGetter) { 
 
-    loggerhead.addIntegerArrayLogger(path + key, mode, integerArrayGetter);
-    return this;
-  }
+loggerhead.addIntegerLogger(path + key, mode, integerGetter);
+return this;
+ 
+ }
 
-  /**
-   * * Add a DoubleArray logger to the Loggerhead instance, prefixed with this tables full path
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param doubleArrayGetter Callable providing the string
-   * @return This table for chaining
-   */
-  public Table addDoubleArrayLogger(
-      String key, LogMode mode, Supplier<double[]> doubleArrayGetter) {
+/** * Add a Double logger to the Loggerhead instance, prefixed with this tables full path
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param doubleGetter Callable providing the string
+ * @return This table for chaining*/
 
-    loggerhead.addDoubleArrayLogger(path + key, mode, doubleArrayGetter);
-    return this;
-  }
 
+public Table addDoubleLogger( String key, LogMode mode, Supplier<Double> doubleGetter) { 
+
+loggerhead.addDoubleLogger(path + key, mode, doubleGetter);
+return this;
+ 
+ }
+
+/** * Add a BooleanArray logger to the Loggerhead instance, prefixed with this tables full path
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param booleanArrayGetter Callable providing the string
+ * @return This table for chaining*/
+
+
+public Table addBooleanArrayLogger( String key, LogMode mode, Supplier<boolean[]> booleanArrayGetter) { 
+
+loggerhead.addBooleanArrayLogger(path + key, mode, booleanArrayGetter);
+return this;
+ 
+ }
+
+/** * Add a StringArray logger to the Loggerhead instance, prefixed with this tables full path
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param stringArrayGetter Callable providing the string
+ * @return This table for chaining*/
+
+
+public Table addStringArrayLogger( String key, LogMode mode, Supplier<String[]> stringArrayGetter) { 
+
+loggerhead.addStringArrayLogger(path + key, mode, stringArrayGetter);
+return this;
+ 
+ }
+
+/** * Add a IntegerArray logger to the Loggerhead instance, prefixed with this tables full path
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param integerArrayGetter Callable providing the string
+ * @return This table for chaining*/
+
+
+public Table addIntegerArrayLogger( String key, LogMode mode, Supplier<long[]> integerArrayGetter) { 
+
+loggerhead.addIntegerArrayLogger(path + key, mode, integerArrayGetter);
+return this;
+ 
+ }
+
+/** * Add a DoubleArray logger to the Loggerhead instance, prefixed with this tables full path
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param doubleArrayGetter Callable providing the string
+ * @return This table for chaining*/
+
+
+public Table addDoubleArrayLogger( String key, LogMode mode, Supplier<double[]> doubleArrayGetter) { 
+
+loggerhead.addDoubleArrayLogger(path + key, mode, doubleArrayGetter);
+return this;
+ 
+ }
   public <T> Table addStructLogger(
       String key, LogMode mode, Supplier<T> structGetter, Struct<T> struct) {
     loggerhead.addStructLogger(path + key, mode, structGetter, struct);
@@ -274,8 +279,8 @@ public class Table {
     loggerhead.addStructArrayLogger(path + key, mode, structGetter, struct);
     return this;
   }
-
-  // LGH END GENERATED 596a96cc7bf9108cd896f33c44aedc8a
+  
+// LGH END GENERATED 596a96cc7bf9108cd896f33c44aedc8a
 
   /**
    * Add a compound logger to the Loggerhead instance. The compound logger is responsible for

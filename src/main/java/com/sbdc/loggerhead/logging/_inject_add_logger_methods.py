@@ -157,11 +157,9 @@ Primary{cd.full_class_name}Log logPub = new Primary{cd.full_class_name}Log(key, 
 SourceUpdateMap<Primary{cd.full_class_name}Log, {cd.base_type if cd.is_array else cd.wrapper_type}> compundLogger =
     new SourceUpdateMap<>(this, logPub, {getterCamel}Getter);
 primaryLogs.add(compundLogger);
-
-return this;
 """
 
-    method = JavaMethod(name=f"add{cd.full_class_name}Logger", body=body, return_="Loggerhead", 
+    method = JavaMethod(name=f"add{cd.full_class_name}Logger", body=body, return_="void", 
                         annotations=[], mods=[JavaModifiers.PUBLIC], is_constructor=False, 
                         params=[
                           JavaDeclaration("key", "String"),

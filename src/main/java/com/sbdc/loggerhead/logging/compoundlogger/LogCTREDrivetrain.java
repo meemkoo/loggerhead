@@ -15,13 +15,14 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.sbdc.loggerhead.compoundlogger;
+package com.sbdc.loggerhead.logging.compoundlogger;
 
 import com.ctre.phoenix6.swerve.SwerveDrivetrain;
-import com.sbdc.loggerhead.LogMode;
-import com.sbdc.loggerhead.Loggerhead;
-import com.sbdc.loggerhead.OneShot;
-import com.sbdc.loggerhead.Table;
+import com.sbdc.loggerhead.logging.LogMode;
+import com.sbdc.loggerhead.logging.Loggerhead;
+import com.sbdc.loggerhead.logging.OneShot;
+import com.sbdc.loggerhead.logging.Table;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 

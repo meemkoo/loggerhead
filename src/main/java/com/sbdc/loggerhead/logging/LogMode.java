@@ -15,14 +15,14 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.sbdc.loggerhead;
+package com.sbdc.loggerhead.logging;
 
-/** Base interface for objects which configure thier own logging internally */
-public interface Loggable {
-  /**
-   * @param parentTable
-   * @param logMode
-   * @param loggerhead
-   */
-  public void setupLogging(Table parentTable, LogMode logMode, Loggerhead loggerhead);
+/** Specify which of three logging modes an entity can be acting on. */
+public enum LogMode {
+  /** Refers to a DataLogEntry */
+  FileOnly,
+  /** Referes to a NetworkTables publisher */
+  NetworkOnly,
+  /** Both of the above combined */
+  Both;
 }

@@ -15,12 +15,12 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.sbdc.loggerhead.compoundlogger;
+package com.sbdc.loggerhead.logging.compoundlogger;
 
-import com.sbdc.loggerhead.LogMode;
-import com.sbdc.loggerhead.Loggerhead;
-import com.sbdc.loggerhead.OneShot;
-import com.sbdc.loggerhead.Table;
+import com.sbdc.loggerhead.logging.LogMode;
+import com.sbdc.loggerhead.logging.OneShot;
+import com.sbdc.loggerhead.logging.Table;
+
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -54,7 +54,7 @@ public class LogSubsystemCommands implements CompoundLogger {
     // Publish only to network tables that it is of type subsystem (for display in dashboards)
     OneShot.setString(logRoot + ".type", "Subsystem");
 
-    Loggerhead.getInstance()
+    parentTable
         .addBooleanLogger(
             logRoot + ".hasDefault", logMode, () -> subsystem.getDefaultCommand() != null)
         .addStringLogger(

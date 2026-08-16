@@ -15,7 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.sbdc.loggerhead.configuration;
+package com.sbdc.loggerhead.logging.configuration;
 
 import java.util.function.Supplier;
 

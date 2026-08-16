@@ -19,7 +19,6 @@ package com.sbdc.loggerhead.logging.compoundlogger;
 
 import com.sbdc.loggerhead.logging.LogMode;
 import com.sbdc.loggerhead.logging.Table;
-
 import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.IntegerPublisher;

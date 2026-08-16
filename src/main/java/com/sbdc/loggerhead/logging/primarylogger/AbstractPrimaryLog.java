@@ -17,13 +17,12 @@
 
 package com.sbdc.loggerhead.logging.primarylogger;
 
+import com.sbdc.loggerhead.logging.LogMode;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.Publisher;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DataLogEntry;
 import java.util.function.Consumer;
-
-import com.sbdc.loggerhead.logging.LogMode;
 
 /**
  * Base class for all primary loggers. Primary loggers would be anything that has a *Publisher or

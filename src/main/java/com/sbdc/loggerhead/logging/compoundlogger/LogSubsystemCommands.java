@@ -20,7 +20,6 @@ package com.sbdc.loggerhead.logging.compoundlogger;
 import com.sbdc.loggerhead.logging.LogMode;
 import com.sbdc.loggerhead.logging.OneShot;
 import com.sbdc.loggerhead.logging.Table;
-
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 

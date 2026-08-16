@@ -26,8 +26,8 @@ import edu.wpi.first.util.datalog.StringLogEntry;
 
 /**
  * Untility class to publish values to NetworkTables and write values to logs one time. Useful for
- * setting a NetworkTables {@code ".type"} string or anything that gets broadcast one time or
- * infrequently.
+ * setting a NetworkTables "{@code .type}" string or anything that gets broadcast one time or
+ * extremely infrequently.
  */
 public class OneShot {
   /**

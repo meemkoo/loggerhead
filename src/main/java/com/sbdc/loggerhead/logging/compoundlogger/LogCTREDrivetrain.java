@@ -22,7 +22,6 @@ import com.sbdc.loggerhead.logging.LogMode;
 import com.sbdc.loggerhead.logging.Loggerhead;
 import com.sbdc.loggerhead.logging.OneShot;
 import com.sbdc.loggerhead.logging.Table;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 

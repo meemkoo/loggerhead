@@ -143,7 +143,6 @@ public class Table {
   }
 
   // --- Logger adder methods ---
-  // TODO: Generate these someday?
 
   // LGH BEGIN GENERATED 596a96cc7bf9108cd896f33c44aedc8a
 

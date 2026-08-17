@@ -28,6 +28,12 @@ public class Hook {
   private boolean fired = false;
   private Object last;
 
+  /**
+   * You probably dont want to construct this directly, you probably want {@link
+   * com.sbdc.loggerhead.logging.Configurator#addHook}
+   *
+   * @param getHookValue
+   */
   public Hook(Supplier<?> getHookValue) {
     this.getHookValue = getHookValue;
     last = getHookValue.get();

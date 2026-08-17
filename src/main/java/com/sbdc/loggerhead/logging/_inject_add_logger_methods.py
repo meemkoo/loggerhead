@@ -144,19 +144,18 @@ def generate_loggerhead_java_inject():
     getterCamel = f"{cd.full_class_name}"
     getterCamel = getterCamel[0].lower() + getterCamel[1:]
 
-    javadoc = f"""Add a {cd.full_class_name} logger to the Loggerhead instance, prefixed with this tables full path
+    javadoc = f"""Add a {cd.full_class_name} logger to the Loggerhead instance
 
 @param key Name of the string logger without slashes
 @param mode Logging mode for the string logger
 @param {getterCamel}Getter Callable providing the string
-@return This table for chaining
 """
     
     body = f"""
 Primary{cd.full_class_name}Log logPub = new Primary{cd.full_class_name}Log(key, mode, ntInst, log);
 SourceUpdateMap<Primary{cd.full_class_name}Log, {cd.base_type if cd.is_array else cd.wrapper_type}> compundLogger =
     new SourceUpdateMap<>(this, logPub, {getterCamel}Getter);
-primaryLogs.add(compundLogger);
+primaryLogs.put(key, compundLogger);
 """
 
     method = JavaMethod(name=f"add{cd.full_class_name}Logger", body=body, return_="void", 
@@ -173,7 +172,7 @@ String key, LogMode mode, Supplier<T> moduleStateGetter, Struct<T> struct) {
 PrimaryStructLog<T, S> logPub = new PrimaryStructLog<>(key, mode, ntInst, log, struct);
 SourceUpdateMap<PrimaryStructLog<T, S>, T> compundLogger =
     new SourceUpdateMap<>(this, logPub, moduleStateGetter);
-primaryLogs.add(compundLogger);
+primaryLogs.put(key, compundLogger);
 
 return this;
 }
@@ -184,7 +183,7 @@ PrimaryStructArrayLog<T, S> logPub =
     new PrimaryStructArrayLog<>(key, mode, ntInst, log, struct);
 SourceUpdateMap<PrimaryStructArrayLog<T, S>, T[]> mapping =
     new SourceUpdateMap<>(this, logPub, valueGetter);
-primaryLogs.add(mapping);
+primaryLogs.put(key, mapping);
 return this;
 }
 """

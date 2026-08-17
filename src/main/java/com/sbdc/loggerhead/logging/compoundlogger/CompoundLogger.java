@@ -30,7 +30,7 @@ public interface CompoundLogger {
    * @return The name of this CompoundLogger
    */
   public default String getName() {
-    return getClass().getName();
+    return getClass().getName() + Integer.toHexString(System.identityHashCode(this));
   }
 
   /** Update this CompoundLogger */

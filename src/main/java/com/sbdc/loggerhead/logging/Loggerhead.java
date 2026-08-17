@@ -213,195 +213,410 @@ public class Loggerhead {
     return ntInst;
   }
 
-  // /**
-  //  * * Add a Boolean logger to the Loggerhead instance
-  //  *
-  //  * @param key Name of the string logger without slashes
-  //  * @param mode Logging mode for the string logger
-  //  * @param booleanGetter Callable providing the string
-  //  */
-  // protected void addBooleanLoggerTo(String key, LogMode mode, Supplier<Boolean> booleanGetter, HashMap<String, SourceUpdateMap<?, ?>> logSink) {
-  //   PrimaryBooleanLog logPub = new PrimaryBooleanLog(key, mode, ntInst, log);
-  //   SourceUpdateMap<PrimaryBooleanLog, Boolean> compundLogger =
-  //       new SourceUpdateMap<>(this, logPub, booleanGetter);
-  //   logSink.put(key, compundLogger);
-  // }
 
-  // /**
-  //  * * Add a Boolean logger to the Loggerhead instance
-  //  *
-  //  * @param key Name of the string logger without slashes
-  //  * @param mode Logging mode for the string logger
-  //  * @param booleanGetter Callable providing the string
-  //  */
-  // public void addBooleanLogger1(String key, LogMode mode, Supplier<Boolean> booleanGetter) {
-  //   addBooleanLoggerTo(key, mode, booleanGetter, autoPrimaryLogs);
-  // }
 
-  /**
-   * * Add a Boolean logger to the Loggerhead instance
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param booleanGetter Callable providing the string
-   */
-  public void manualPutBoolean(String key, LogMode mode, boolean newBoolean) {
+
+// LGH BEGIN GENERATED 596a96cc7bf9108cd896f33c44aedc8a
+
+/** * Add a Boolean logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param booleanGetter Callable providing the string*/
+
+
+public void addBooleanLogger( String key, LogMode mode, Supplier<Boolean> booleanGetter) { 
+
+PrimaryBooleanLog logPub = new PrimaryBooleanLog(key, mode, ntInst, log);
+SourceUpdateMap<PrimaryBooleanLog, Boolean> compundLogger =
+    new SourceUpdateMap<>(this, logPub, booleanGetter);
+autoPrimaryLogs.put(key, compundLogger);
+ 
+ }
+
+/** * Add a String logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param stringGetter Callable providing the string*/
+
+
+public void addStringLogger( String key, LogMode mode, Supplier<String> stringGetter) { 
+
+PrimaryStringLog logPub = new PrimaryStringLog(key, mode, ntInst, log);
+SourceUpdateMap<PrimaryStringLog, String> compundLogger =
+    new SourceUpdateMap<>(this, logPub, stringGetter);
+autoPrimaryLogs.put(key, compundLogger);
+ 
+ }
+
+/** * Add a Integer logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param integerGetter Callable providing the string*/
+
+
+public void addIntegerLogger( String key, LogMode mode, Supplier<Integer> integerGetter) { 
+
+PrimaryIntegerLog logPub = new PrimaryIntegerLog(key, mode, ntInst, log);
+SourceUpdateMap<PrimaryIntegerLog, Integer> compundLogger =
+    new SourceUpdateMap<>(this, logPub, integerGetter);
+autoPrimaryLogs.put(key, compundLogger);
+ 
+ }
+
+/** * Add a Double logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param doubleGetter Callable providing the string*/
+
+
+public void addDoubleLogger( String key, LogMode mode, Supplier<Double> doubleGetter) { 
+
+PrimaryDoubleLog logPub = new PrimaryDoubleLog(key, mode, ntInst, log);
+SourceUpdateMap<PrimaryDoubleLog, Double> compundLogger =
+    new SourceUpdateMap<>(this, logPub, doubleGetter);
+autoPrimaryLogs.put(key, compundLogger);
+ 
+ }
+
+/** * Add a BooleanArray logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param booleanArrayGetter Callable providing the string*/
+
+
+public void addBooleanArrayLogger( String key, LogMode mode, Supplier<boolean[]> booleanArrayGetter) { 
+
+PrimaryBooleanArrayLog logPub = new PrimaryBooleanArrayLog(key, mode, ntInst, log);
+SourceUpdateMap<PrimaryBooleanArrayLog, boolean[]> compundLogger =
+    new SourceUpdateMap<>(this, logPub, booleanArrayGetter);
+autoPrimaryLogs.put(key, compundLogger);
+ 
+ }
+
+/** * Add a StringArray logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param stringArrayGetter Callable providing the string*/
+
+
+public void addStringArrayLogger( String key, LogMode mode, Supplier<String[]> stringArrayGetter) { 
+
+PrimaryStringArrayLog logPub = new PrimaryStringArrayLog(key, mode, ntInst, log);
+SourceUpdateMap<PrimaryStringArrayLog, String[]> compundLogger =
+    new SourceUpdateMap<>(this, logPub, stringArrayGetter);
+autoPrimaryLogs.put(key, compundLogger);
+ 
+ }
+
+/** * Add a IntegerArray logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param integerArrayGetter Callable providing the string*/
+
+
+public void addIntegerArrayLogger( String key, LogMode mode, Supplier<long[]> integerArrayGetter) { 
+
+PrimaryIntegerArrayLog logPub = new PrimaryIntegerArrayLog(key, mode, ntInst, log);
+SourceUpdateMap<PrimaryIntegerArrayLog, long[]> compundLogger =
+    new SourceUpdateMap<>(this, logPub, integerArrayGetter);
+autoPrimaryLogs.put(key, compundLogger);
+ 
+ }
+
+/** * Add a DoubleArray logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param doubleArrayGetter Callable providing the string*/
+
+
+public void addDoubleArrayLogger( String key, LogMode mode, Supplier<double[]> doubleArrayGetter) { 
+
+PrimaryDoubleArrayLog logPub = new PrimaryDoubleArrayLog(key, mode, ntInst, log);
+SourceUpdateMap<PrimaryDoubleArrayLog, double[]> compundLogger =
+    new SourceUpdateMap<>(this, logPub, doubleArrayGetter);
+autoPrimaryLogs.put(key, compundLogger);
+ 
+ }
+
+/** * Add a Boolean logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param booleanGetter Callable providing the string*/
+
+
+public void manualPutBoolean( String key, LogMode mode, Boolean newBoolean) { 
+
+if (autoPrimaryLogs.containsKey(key)) {
+      throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
+    }
+
+    PrimaryBooleanLog logPub;
+    if (manualPrimaryLogs.containsKey(key)) {
+      if (manualPrimaryLogs.get(key) instanceof PrimaryBooleanLog) {
+        logPub = (PrimaryBooleanLog) manualPrimaryLogs.get(key);
+      } else {
+        throw new RuntimeException("Logger: " + key + ", is not a boolean logger but a boolean value was attemped to be published");
+      }
+    } else {
+      logPub = new PrimaryBooleanLog(key, mode, ntInst, log);
+      manualPrimaryLogs.put(key, logPub);
+    }
+
+  logPub.update(newBoolean);
+ 
+ }
+
+/** * Add a String logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param stringGetter Callable providing the string*/
+
+
+public void manualPutString( String key, LogMode mode, String newString) { 
+
+if (autoPrimaryLogs.containsKey(key)) {
+      throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
+    }
+
+    PrimaryStringLog logPub;
+    if (manualPrimaryLogs.containsKey(key)) {
+      if (manualPrimaryLogs.get(key) instanceof PrimaryStringLog) {
+        logPub = (PrimaryStringLog) manualPrimaryLogs.get(key);
+      } else {
+        throw new RuntimeException("Logger: " + key + ", is not a boolean logger but a boolean value was attemped to be published");
+      }
+    } else {
+      logPub = new PrimaryStringLog(key, mode, ntInst, log);
+      manualPrimaryLogs.put(key, logPub);
+    }
+
+  logPub.update(newString);
+ 
+ }
+
+/** * Add a Integer logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param integerGetter Callable providing the string*/
+
+
+public void manualPutInteger( String key, LogMode mode, Integer newInteger) { 
+
+if (autoPrimaryLogs.containsKey(key)) {
+      throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
+    }
+
+    PrimaryIntegerLog logPub;
+    if (manualPrimaryLogs.containsKey(key)) {
+      if (manualPrimaryLogs.get(key) instanceof PrimaryIntegerLog) {
+        logPub = (PrimaryIntegerLog) manualPrimaryLogs.get(key);
+      } else {
+        throw new RuntimeException("Logger: " + key + ", is not a boolean logger but a boolean value was attemped to be published");
+      }
+    } else {
+      logPub = new PrimaryIntegerLog(key, mode, ntInst, log);
+      manualPrimaryLogs.put(key, logPub);
+    }
+
+  logPub.update(newInteger);
+ 
+ }
+
+/** * Add a Double logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param doubleGetter Callable providing the string*/
+
+
+public void manualPutDouble( String key, LogMode mode, Double newDouble) { 
+
+if (autoPrimaryLogs.containsKey(key)) {
+      throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
+    }
+
+    PrimaryDoubleLog logPub;
+    if (manualPrimaryLogs.containsKey(key)) {
+      if (manualPrimaryLogs.get(key) instanceof PrimaryDoubleLog) {
+        logPub = (PrimaryDoubleLog) manualPrimaryLogs.get(key);
+      } else {
+        throw new RuntimeException("Logger: " + key + ", is not a boolean logger but a boolean value was attemped to be published");
+      }
+    } else {
+      logPub = new PrimaryDoubleLog(key, mode, ntInst, log);
+      manualPrimaryLogs.put(key, logPub);
+    }
+
+  logPub.update(newDouble);
+ 
+ }
+
+/** * Add a BooleanArray logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param booleanArrayGetter Callable providing the string*/
+
+
+public void manualPutBooleanArray( String key, LogMode mode, boolean[] newBooleanArray) { 
+
+if (autoPrimaryLogs.containsKey(key)) {
+      throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
+    }
+
+    PrimaryBooleanArrayLog logPub;
+    if (manualPrimaryLogs.containsKey(key)) {
+      if (manualPrimaryLogs.get(key) instanceof PrimaryBooleanArrayLog) {
+        logPub = (PrimaryBooleanArrayLog) manualPrimaryLogs.get(key);
+      } else {
+        throw new RuntimeException("Logger: " + key + ", is not a boolean logger but a boolean value was attemped to be published");
+      }
+    } else {
+      logPub = new PrimaryBooleanArrayLog(key, mode, ntInst, log);
+      manualPrimaryLogs.put(key, logPub);
+    }
+
+  logPub.update(newBooleanArray);
+ 
+ }
+
+/** * Add a StringArray logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param stringArrayGetter Callable providing the string*/
+
+
+public void manualPutStringArray( String key, LogMode mode, String[] newStringArray) { 
+
+if (autoPrimaryLogs.containsKey(key)) {
+      throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
+    }
+
+    PrimaryStringArrayLog logPub;
+    if (manualPrimaryLogs.containsKey(key)) {
+      if (manualPrimaryLogs.get(key) instanceof PrimaryStringArrayLog) {
+        logPub = (PrimaryStringArrayLog) manualPrimaryLogs.get(key);
+      } else {
+        throw new RuntimeException("Logger: " + key + ", is not a boolean logger but a boolean value was attemped to be published");
+      }
+    } else {
+      logPub = new PrimaryStringArrayLog(key, mode, ntInst, log);
+      manualPrimaryLogs.put(key, logPub);
+    }
+
+  logPub.update(newStringArray);
+ 
+ }
+
+/** * Add a IntegerArray logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param integerArrayGetter Callable providing the string*/
+
+
+public void manualPutIntegerArray( String key, LogMode mode, long[] newIntegerArray) { 
+
+if (autoPrimaryLogs.containsKey(key)) {
+      throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
+    }
+
+    PrimaryIntegerArrayLog logPub;
+    if (manualPrimaryLogs.containsKey(key)) {
+      if (manualPrimaryLogs.get(key) instanceof PrimaryIntegerArrayLog) {
+        logPub = (PrimaryIntegerArrayLog) manualPrimaryLogs.get(key);
+      } else {
+        throw new RuntimeException("Logger: " + key + ", is not a boolean logger but a boolean value was attemped to be published");
+      }
+    } else {
+      logPub = new PrimaryIntegerArrayLog(key, mode, ntInst, log);
+      manualPrimaryLogs.put(key, logPub);
+    }
+
+  logPub.update(newIntegerArray);
+ 
+ }
+
+/** * Add a DoubleArray logger to the Loggerhead instance
+ * 
+ * @param key Name of the string logger without slashes
+ * @param mode Logging mode for the string logger
+ * @param doubleArrayGetter Callable providing the string*/
+
+
+public void manualPutDoubleArray( String key, LogMode mode, double[] newDoubleArray) { 
+
+if (autoPrimaryLogs.containsKey(key)) {
+      throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
+    }
+
+    PrimaryDoubleArrayLog logPub;
+    if (manualPrimaryLogs.containsKey(key)) {
+      if (manualPrimaryLogs.get(key) instanceof PrimaryDoubleArrayLog) {
+        logPub = (PrimaryDoubleArrayLog) manualPrimaryLogs.get(key);
+      } else {
+        throw new RuntimeException("Logger: " + key + ", is not a boolean logger but a boolean value was attemped to be published");
+      }
+    } else {
+      logPub = new PrimaryDoubleArrayLog(key, mode, ntInst, log);
+      manualPrimaryLogs.put(key, logPub);
+    }
+
+  logPub.update(newDoubleArray);
+ 
+ }
+public <T, S extends Struct<T>> Loggerhead addStructLogger(
+String key, LogMode mode, Supplier<T> moduleStateGetter, Struct<T> struct) {
+PrimaryStructLog<T, S> logPub = new PrimaryStructLog<>(key, mode, ntInst, log, struct);
+SourceUpdateMap<PrimaryStructLog<T, S>, T> compundLogger =
+    new SourceUpdateMap<>(this, logPub, moduleStateGetter);
+autoPrimaryLogs.put(key, compundLogger);
+
+return this;
+}
+
+public <T, S extends Struct<T>> Loggerhead addStructArrayLogger(
+  String key, LogMode mode, Supplier<T[]> valueGetter, Struct<T> struct) {
+PrimaryStructArrayLog<T, S> logPub =
+    new PrimaryStructArrayLog<>(key, mode, ntInst, log, struct);
+SourceUpdateMap<PrimaryStructArrayLog<T, S>, T[]> mapping =
+    new SourceUpdateMap<>(this, logPub, valueGetter);
+autoPrimaryLogs.put(key, mapping);
+return this;
+}
+
+public <T, S extends Struct<T>> void manualPutStruct(String key, LogMode mode, T value, Struct<T> struct) {
     if (autoPrimaryLogs.containsKey(key)) {
       throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
     }
 
-    if (!manualPrimaryLogs.containsKey(key)) {
-      PrimaryBooleanLog logPub = new PrimaryBooleanLog(key, mode, ntInst, log);
+    PrimaryStructLog<T, S> logPub;
+    if (manualPrimaryLogs.containsKey(key)) {
+      manualPrimaryLogs.get(key);
+      if (manualPrimaryLogs.get(key) instanceof PrimaryStructLog<T, S>) {
+        logPub = (PrimaryStructLog<T, S>) manualPrimaryLogs.get(key);
+      } else {
+        throw new RuntimeException("Logger: " + key + ", is not a boolean logger but a boolean value was attemped to be published");
+      }
+    } else {
+      logPub = new PrimaryStructLog<T, S>(key, mode, ntInst, log, struct);
       manualPrimaryLogs.put(key, logPub);
     }
 
-    manualPrimaryLogs.get(key).update(newBoolean);
+  logPub.update(value);
   }
 
-
-
-  // LGH BEGIN GENERATED 596a96cc7bf9108cd896f33c44aedc8a
-
-  /**
-   * * Add a Boolean logger to the Loggerhead instance
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param booleanGetter Callable providing the string
-   */
-  public void addBooleanLogger(String key, LogMode mode, Supplier<Boolean> booleanGetter) {
-
-    PrimaryBooleanLog logPub = new PrimaryBooleanLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryBooleanLog, Boolean> compundLogger =
-        new SourceUpdateMap<>(this, logPub, booleanGetter);
-    autoPrimaryLogs.put(key, compundLogger);
-  }
-
-  /**
-   * * Add a String logger to the Loggerhead instance
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param stringGetter Callable providing the string
-   */
-  public void addStringLogger(String key, LogMode mode, Supplier<String> stringGetter) {
-
-    PrimaryStringLog logPub = new PrimaryStringLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryStringLog, String> compundLogger =
-        new SourceUpdateMap<>(this, logPub, stringGetter);
-    autoPrimaryLogs.put(key, compundLogger);
-  }
-
-  /**
-   * * Add a Integer logger to the Loggerhead instance
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param integerGetter Callable providing the string
-   */
-  public void addIntegerLogger(String key, LogMode mode, Supplier<Integer> integerGetter) {
-
-    PrimaryIntegerLog logPub = new PrimaryIntegerLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryIntegerLog, Integer> compundLogger =
-        new SourceUpdateMap<>(this, logPub, integerGetter);
-    autoPrimaryLogs.put(key, compundLogger);
-  }
-
-  /**
-   * * Add a Double logger to the Loggerhead instance
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param doubleGetter Callable providing the string
-   */
-  public void addDoubleLogger(String key, LogMode mode, Supplier<Double> doubleGetter) {
-
-    PrimaryDoubleLog logPub = new PrimaryDoubleLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryDoubleLog, Double> compundLogger =
-        new SourceUpdateMap<>(this, logPub, doubleGetter);
-    autoPrimaryLogs.put(key, compundLogger);
-  }
-
-  /**
-   * * Add a BooleanArray logger to the Loggerhead instance
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param booleanArrayGetter Callable providing the string
-   */
-  public void addBooleanArrayLogger(
-      String key, LogMode mode, Supplier<boolean[]> booleanArrayGetter) {
-
-    PrimaryBooleanArrayLog logPub = new PrimaryBooleanArrayLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryBooleanArrayLog, boolean[]> compundLogger =
-        new SourceUpdateMap<>(this, logPub, booleanArrayGetter);
-    autoPrimaryLogs.put(key, compundLogger);
-  }
-
-  /**
-   * * Add a StringArray logger to the Loggerhead instance
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param stringArrayGetter Callable providing the string
-   */
-  public void addStringArrayLogger(String key, LogMode mode, Supplier<String[]> stringArrayGetter) {
-
-    PrimaryStringArrayLog logPub = new PrimaryStringArrayLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryStringArrayLog, String[]> compundLogger =
-        new SourceUpdateMap<>(this, logPub, stringArrayGetter);
-    autoPrimaryLogs.put(key, compundLogger);
-  }
-
-  /**
-   * * Add a IntegerArray logger to the Loggerhead instance
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param integerArrayGetter Callable providing the string
-   */
-  public void addIntegerArrayLogger(String key, LogMode mode, Supplier<long[]> integerArrayGetter) {
-
-    PrimaryIntegerArrayLog logPub = new PrimaryIntegerArrayLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryIntegerArrayLog, long[]> compundLogger =
-        new SourceUpdateMap<>(this, logPub, integerArrayGetter);
-    autoPrimaryLogs.put(key, compundLogger);
-  }
-
-  /**
-   * * Add a DoubleArray logger to the Loggerhead instance
-   *
-   * @param key Name of the string logger without slashes
-   * @param mode Logging mode for the string logger
-   * @param doubleArrayGetter Callable providing the string
-   */
-  public void addDoubleArrayLogger(String key, LogMode mode, Supplier<double[]> doubleArrayGetter) {
-
-    PrimaryDoubleArrayLog logPub = new PrimaryDoubleArrayLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryDoubleArrayLog, double[]> compundLogger =
-        new SourceUpdateMap<>(this, logPub, doubleArrayGetter);
-    autoPrimaryLogs.put(key, compundLogger);
-  }
-
-  public <T, S extends Struct<T>> Loggerhead addStructLogger(
-      String key, LogMode mode, Supplier<T> moduleStateGetter, Struct<T> struct) {
-    PrimaryStructLog<T, S> logPub = new PrimaryStructLog<>(key, mode, ntInst, log, struct);
-    SourceUpdateMap<PrimaryStructLog<T, S>, T> compundLogger =
-        new SourceUpdateMap<>(this, logPub, moduleStateGetter);
-    autoPrimaryLogs.put(key, compundLogger);
-
-    return this;
-  }
-
-  public <T, S extends Struct<T>> Loggerhead addStructArrayLogger(
-      String key, LogMode mode, Supplier<T[]> valueGetter, Struct<T> struct) {
-    PrimaryStructArrayLog<T, S> logPub =
-        new PrimaryStructArrayLog<>(key, mode, ntInst, log, struct);
-    SourceUpdateMap<PrimaryStructArrayLog<T, S>, T[]> mapping =
-        new SourceUpdateMap<>(this, logPub, valueGetter);
-    autoPrimaryLogs.put(key, mapping);
-    return this;
-  }
-
-  // LGH END GENERATED 596a96cc7bf9108cd896f33c44aedc8a
+// LGH END GENERATED 596a96cc7bf9108cd896f33c44aedc8a
 }

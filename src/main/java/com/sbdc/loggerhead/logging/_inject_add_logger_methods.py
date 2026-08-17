@@ -140,6 +140,8 @@ def generate_loggerhead_java_inject():
   cds = get_big_8_dt()
   methods: list[JavaMethod] = []
 
+  # Add auto loggers
+
   for cd in cds:
     getterCamel = f"{cd.full_class_name}"
     getterCamel = getterCamel[0].lower() + getterCamel[1:]
@@ -155,7 +157,7 @@ def generate_loggerhead_java_inject():
 Primary{cd.full_class_name}Log logPub = new Primary{cd.full_class_name}Log(key, mode, ntInst, log);
 SourceUpdateMap<Primary{cd.full_class_name}Log, {cd.base_type if cd.is_array else cd.wrapper_type}> compundLogger =
     new SourceUpdateMap<>(this, logPub, {getterCamel}Getter);
-primaryLogs.put(key, compundLogger);
+autoPrimaryLogs.put(key, compundLogger);
 """
 
     method = JavaMethod(name=f"add{cd.full_class_name}Logger", body=body, return_="void", 
@@ -167,12 +169,12 @@ primaryLogs.put(key, compundLogger);
                         ], jdoc=javadoc)
     methods.append(method)
 
-  struct_stuff = """public <T, S extends Struct<T>> Loggerhead addStructLogger(
+  struct_stuff_auto = """public <T, S extends Struct<T>> Loggerhead addStructLogger(
 String key, LogMode mode, Supplier<T> moduleStateGetter, Struct<T> struct) {
 PrimaryStructLog<T, S> logPub = new PrimaryStructLog<>(key, mode, ntInst, log, struct);
 SourceUpdateMap<PrimaryStructLog<T, S>, T> compundLogger =
     new SourceUpdateMap<>(this, logPub, moduleStateGetter);
-primaryLogs.put(key, compundLogger);
+autoPrimaryLogs.put(key, compundLogger);
 
 return this;
 }
@@ -183,12 +185,75 @@ PrimaryStructArrayLog<T, S> logPub =
     new PrimaryStructArrayLog<>(key, mode, ntInst, log, struct);
 SourceUpdateMap<PrimaryStructArrayLog<T, S>, T[]> mapping =
     new SourceUpdateMap<>(this, logPub, valueGetter);
-primaryLogs.put(key, mapping);
+autoPrimaryLogs.put(key, mapping);
 return this;
 }
 """
 
-  return '\n'.join(map(lambda x: x.generate(), methods)) + '\n' + struct_stuff
+  # Add manual loggers
+
+  for cd in cds:
+    getterCamel = f"{cd.full_class_name}"
+    getterCamel = getterCamel[0].lower() + getterCamel[1:]
+
+    javadoc = f"""Add a {cd.full_class_name} logger to the Loggerhead instance
+
+@param key Name of the string logger without slashes
+@param mode Logging mode for the string logger
+@param {getterCamel}Getter Callable providing the string
+"""
+    
+    body = f"""
+if (autoPrimaryLogs.containsKey(key)) {{
+      throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
+    }}
+
+    Primary{cd.full_class_name}Log logPub;
+    if (manualPrimaryLogs.containsKey(key)) {{
+      if (manualPrimaryLogs.get(key) instanceof Primary{cd.full_class_name}Log) {{
+        logPub = (Primary{cd.full_class_name}Log) manualPrimaryLogs.get(key);
+      }} else {{
+        throw new RuntimeException("Logger: " + key + ", is not a boolean logger but a boolean value was attemped to be published");
+      }}
+    }} else {{
+      logPub = new Primary{cd.full_class_name}Log(key, mode, ntInst, log);
+      manualPrimaryLogs.put(key, logPub);
+    }}
+
+  logPub.update(new{cd.full_class_name});
+"""
+
+    method = JavaMethod(name=f"manualPut{cd.full_class_name}", body=body, return_="void", 
+                        annotations=[], mods=[JavaModifiers.PUBLIC], is_constructor=False, 
+                        params=[
+                          JavaDeclaration("key", "String"),
+                          JavaDeclaration("mode", "LogMode"),
+                          JavaDeclaration("new" + cd.full_class_name, f"{cd.base_type if cd.is_array else cd.wrapper_type}"), 
+                        ], jdoc=javadoc)
+    methods.append(method)
+
+  struct_stuff_manual = """public <T, S extends Struct<T>> Loggerhead addStructLogger(
+String key, LogMode mode, Supplier<T> moduleStateGetter, Struct<T> struct) {
+PrimaryStructLog<T, S> logPub = new PrimaryStructLog<>(key, mode, ntInst, log, struct);
+SourceUpdateMap<PrimaryStructLog<T, S>, T> compundLogger =
+    new SourceUpdateMap<>(this, logPub, moduleStateGetter);
+autoPrimaryLogs.put(key, compundLogger);
+
+return this;
+}
+
+public <T, S extends Struct<T>> Loggerhead addStructArrayLogger(
+  String key, LogMode mode, Supplier<T[]> valueGetter, Struct<T> struct) {
+PrimaryStructArrayLog<T, S> logPub =
+    new PrimaryStructArrayLog<>(key, mode, ntInst, log, struct);
+SourceUpdateMap<PrimaryStructArrayLog<T, S>, T[]> mapping =
+    new SourceUpdateMap<>(this, logPub, valueGetter);
+autoPrimaryLogs.put(key, mapping);
+return this;
+}
+"""
+
+  return '\n'.join(map(lambda x: x.generate(), methods)) + '\n' + struct_stuff_auto
 
 
 @dataclass

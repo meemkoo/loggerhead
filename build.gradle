@@ -165,6 +165,7 @@ apply from: 'publish.gradle'
 
 // build.dependsOn runCodeGen
 build.dependsOn spotlessApply
+publish.dependsOn spotlessApply
 
 // gradle.taskGraph.whenReady { taskGraph ->
 //     def allTasks = taskGraph.allTasks

@@ -190,7 +190,10 @@ return this;
 }
 """
 
+
+  # ------------------
   # Add manual loggers
+  # ---
 
   for cd in cds:
     getterCamel = f"{cd.full_class_name}"
@@ -200,7 +203,7 @@ return this;
 
 @param key Name of the string logger without slashes
 @param mode Logging mode for the string logger
-@param {getterCamel}Getter Callable providing the string
+@param new{cd.full_class_name} Callable providing the string
 """
     
     body = f"""
@@ -208,18 +211,22 @@ if (autoPrimaryLogs.containsKey(key)) {{
       throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
     }}
 
-    Primary{cd.full_class_name}Log logPub;
+    Primary{cd.full_class_name}Log logPub = null;
     if (manualPrimaryLogs.containsKey(key)) {{
       if (manualPrimaryLogs.get(key) instanceof Primary{cd.full_class_name}Log) {{
         logPub = (Primary{cd.full_class_name}Log) manualPrimaryLogs.get(key);
       }} else {{
-        throw new RuntimeException("Logger: " + key + ", is not a boolean logger but a boolean value was attemped to be published");
+        if (BuildConstants.LOGGING_FAILS_FAST) {{ 
+          throw new RuntimeException("Logger: " + key + ", exists but is not a {cd.base_type} logger, and a {cd.base_type} value was attemped to be published");
+        }}
       }}
     }} else {{
       logPub = new Primary{cd.full_class_name}Log(key, mode, ntInst, log);
-      manualPrimaryLogs.put(key, logPub);
     }}
 
+    if (logPub != null) {{
+      manualPrimaryLogs.put(key, logPub);
+    }}
   logPub.update(new{cd.full_class_name});
 """
 
@@ -232,28 +239,57 @@ if (autoPrimaryLogs.containsKey(key)) {{
                         ], jdoc=javadoc)
     methods.append(method)
 
-  struct_stuff_manual = """public <T, S extends Struct<T>> Loggerhead addStructLogger(
-String key, LogMode mode, Supplier<T> moduleStateGetter, Struct<T> struct) {
-PrimaryStructLog<T, S> logPub = new PrimaryStructLog<>(key, mode, ntInst, log, struct);
-SourceUpdateMap<PrimaryStructLog<T, S>, T> compundLogger =
-    new SourceUpdateMap<>(this, logPub, moduleStateGetter);
-autoPrimaryLogs.put(key, compundLogger);
+  struct_stuff_manual = """public <T, S extends Struct<T>> void manualPutStruct(String key, LogMode mode, T value, Struct<T> struct) {
+    if (autoPrimaryLogs.containsKey(key)) {
+      throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
+    }
 
-return this;
-}
+    PrimaryStructLog<T, S> logPub;
+    if (manualPrimaryLogs.containsKey(key)) {
+      manualPrimaryLogs.get(key);
+      if (manualPrimaryLogs.get(key) instanceof PrimaryStructLog<?, ?>) {
+        logPub = (PrimaryStructLog<T, S>) manualPrimaryLogs.get(key);
+      } else {
+        throw new RuntimeException("Logger: " + key + ", is not a boolean logger but a boolean value was attemped to be published");
+      }
+    } else {
+      logPub = new PrimaryStructLog<T, S>(key, mode, ntInst, log, struct);
+      manualPrimaryLogs.put(key, logPub);
+    }
 
-public <T, S extends Struct<T>> Loggerhead addStructArrayLogger(
-  String key, LogMode mode, Supplier<T[]> valueGetter, Struct<T> struct) {
-PrimaryStructArrayLog<T, S> logPub =
-    new PrimaryStructArrayLog<>(key, mode, ntInst, log, struct);
-SourceUpdateMap<PrimaryStructArrayLog<T, S>, T[]> mapping =
-    new SourceUpdateMap<>(this, logPub, valueGetter);
-autoPrimaryLogs.put(key, mapping);
-return this;
-}
+  logPub.update(value);
+  }
+
+public <T, S extends Struct<T>> void manualPutStructArray(String key, LogMode mode, T[] value, Struct<T> struct) {
+    if (autoPrimaryLogs.containsKey(key)) {
+      throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
+    }
+
+    PrimaryStructArrayLog<T, S> logPub = null;
+    String errors = "";
+    if (manualPrimaryLogs.containsKey(key)) {
+      manualPrimaryLogs.get(key);
+      if (manualPrimaryLogs.get(key) instanceof PrimaryStructArrayLog<?, ?>) {
+        logPub = (PrimaryStructArrayLog<T, S>) manualPrimaryLogs.get(key);
+      } else {
+        if (BuildConstants.LOGGING_FAILS_FAST) {
+          throw new RuntimeException("Logger: " + key + ", is not a struct array logger but a struct array value was attemped to be published");
+        }
+      }
+    } else {
+      logPub = new PrimaryStructArrayLog<T, S>(key, mode, ntInst, log, struct);
+    }
+  
+  if (logPub != null) {
+    manualPrimaryLogs.put(key, logPub);
+  }
+
+  logPub.update(value);
+  }
+
 """
 
-  return '\n'.join(map(lambda x: x.generate(), methods)) + '\n' + struct_stuff_auto
+  return '\n'.join(map(lambda x: x.generate(), methods)) + '\n' + struct_stuff_auto + '\n' + struct_stuff_manual
 
 
 @dataclass

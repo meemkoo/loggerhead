@@ -82,8 +82,18 @@ def build_struct_loggers():
   array_extension_text = f"<T, S extends Struct<T>> extends AbstractPrimaryLog<T[], StructArrayLogEntry<T>, StructArrayPublisher<T>>"
 
   base_constructor = """super(key, logMode, ntInstance, dataLog);
-Struct{arrayMaybe}LogEntry.create(dataLog, key, struct);
-setPublisher(ntInstance.getStruct{arrayMaybe}Topic(key, struct).publish());
+switch (getMode()) {{
+  case FileOnly:
+    setLogEntry(Struct{arrayMaybe}LogEntry.create(dataLog, key, struct));
+    break;
+  case NetworkOnly:
+    setPublisher(ntInstance.getStruct{arrayMaybe}Topic(key, struct).publish());
+    break;
+  case Both:
+    setLogEntry(Struct{arrayMaybe}LogEntry.create(dataLog, key, struct));
+    setPublisher(ntInstance.getStruct{arrayMaybe}Topic(key, struct).publish());
+    break;
+}}
 """
 
   base_methods = [

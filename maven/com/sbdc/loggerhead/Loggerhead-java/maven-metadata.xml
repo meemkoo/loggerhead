@@ -3,16 +3,17 @@
   <groupId>com.sbdc.loggerhead</groupId>
   <artifactId>Loggerhead-java</artifactId>
   <versioning>
-    <latest>0.0.4-dev-unstable</latest>
-    <release>0.0.4-dev-unstable</release>
+    <latest>0.0.9-dev-unstable</latest>
+    <release>0.0.9-dev-unstable</release>
     <versions>
-      <version>0.0.6</version>
-      <version>0.0.8-unstable</version>
-      <version>0.0.9-dev-unstable</version>
-      <version>0.0.5-unstable</version>
-      <version>0.0.7-dev-unstable</version>
       <version>0.0.4-dev-unstable</version>
+      <version>0.0.10</version>
+      <version>0.0.7-dev-unstable</version>
+      <version>0.0.5-unstable</version>
+      <version>0.0.8-unstable</version>
+      <version>0.0.6</version>
+      <version>0.0.9-dev-unstable</version>
     </versions>
-    <lastUpdated>20260824014558</lastUpdated>
+    <lastUpdated>20260909025937</lastUpdated>
   </versioning>
 </metadata>

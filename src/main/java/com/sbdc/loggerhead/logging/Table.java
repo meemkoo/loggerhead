@@ -97,12 +97,12 @@ public class Table {
   /**
    * Creates subtable table or gets an existing subtable, then applies a callable to it
    *
-   * @param newTableName Subtable name
+   * @param tableName Subtable name
    * @param applyToTable Callable accepting the Subtable
    * @return The parent table for chaining
    */
-  public Table applyToSubTable(String newTableName, Consumer<Table> applyToTable) {
-    Table table = getSubTable(newTableName);
+  public Table applyToSubTable(String tableName, Consumer<Table> applyToTable) {
+    Table table = getSubTable(tableName);
     applyToTable.accept(table);
     return this;
   }
@@ -110,16 +110,16 @@ public class Table {
   /**
    * Creates subtable with name, or gets the existing subtable with that name
    *
-   * @param newTableName Subtable's name
+   * @param tableName Subtable's name
    * @return Subtable
    */
-  public Table getSubTable(String newTableName) {
-    if (subTables.containsKey(newTableName)) {
-      return subTables.get(newTableName);
+  public Table getSubTable(String tableName) {
+    if (subTables.containsKey(tableName)) {
+      return subTables.get(tableName);
     }
 
-    Table newTable = new Table(newTableName, loggerhead, this);
-    subTables.put(newTableName, newTable);
+    Table newTable = new Table(tableName, loggerhead, this);
+    subTables.put(tableName, newTable);
     return newTable;
   }
 

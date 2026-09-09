@@ -48,10 +48,11 @@ public class LogSubsystemCommands implements CompoundLogger {
 
   @Override
   public void initialize(Table parentTable) {
-    String logRoot = parentTable.path + name + "/";
+    String oneShotLogRoot = parentTable.path + name + "/";
+    String logRoot = name + "/";
 
     // Publish only to network tables that it is of type subsystem (for display in dashboards)
-    OneShot.setString(logRoot + ".type", "Subsystem");
+    OneShot.setString(oneShotLogRoot + ".type", "Subsystem");
 
     parentTable
         .addBooleanLogger(

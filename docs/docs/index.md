@@ -7,6 +7,8 @@ Looking for the beta documentation? Find it [here](https://meemkoo.github.io/log
 
 Looking for the vendordeps? Find them [here](https://meemkoo.github.io/loggerhead/vendordeps/).
 
+Looking for the GitHub? Find it [here](https://github.com/meemkoo/loggerhead).
+
 ## Declaritive
 
 ## Configurable

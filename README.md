@@ -1,5 +1,5 @@
 # Loggerhead
-A declarative logging system for FRC.
+A declarative logging system for use in FRC (FIRST Robotics Competition).
 
 [Visit docs & vendordep downloads](https://meemkoo.github.io/loggerhead)
 

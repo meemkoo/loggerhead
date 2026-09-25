@@ -43,12 +43,12 @@ import java.util.function.Supplier;
 /** Singleton that orchestrates all logging. The entry-point of the library */
 public class Loggerhead {
   // TODO: Name this better
-  public static class SourceUpdateMap<T extends AbstractPrimaryLog<E, ?, ?>, E> {
+  public static class LoggerWithUpdateSource<T extends AbstractPrimaryLog<E, ?, ?>, E> {
     public final T log;
     public final Supplier<E> newValue;
     public final Loggerhead root;
 
-    public SourceUpdateMap(Loggerhead root, T log, Supplier<E> newValue) {
+    public LoggerWithUpdateSource(Loggerhead root, T log, Supplier<E> newValue) {
       this.root = root;
       this.log = log;
       this.newValue = newValue;
@@ -74,7 +74,7 @@ public class Loggerhead {
   private final DataLog log = DataLogManager.getLog();
   private final Configurator configurator = new Configurator(this::cleanLoggers, () -> {});
 
-  private final HashMap<String, SourceUpdateMap<?, ?>> autoPrimaryLogs = new HashMap<>();
+  private final HashMap<String, LoggerWithUpdateSource<?, ?>> autoPrimaryLogs = new HashMap<>();
   private final HashMap<String, AbstractPrimaryLog<?, ?, ?>> manualPrimaryLogs = new HashMap<>();
   private final HashMap<String, CompoundLogger> compoundLoggers = new HashMap<>();
 
@@ -220,8 +220,8 @@ public class Loggerhead {
   public void addBooleanLogger(String key, LogMode mode, Supplier<Boolean> booleanGetter) {
 
     PrimaryBooleanLog logPub = new PrimaryBooleanLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryBooleanLog, Boolean> compundLogger =
-        new SourceUpdateMap<>(this, logPub, booleanGetter);
+    LoggerWithUpdateSource<PrimaryBooleanLog, Boolean> compundLogger =
+        new LoggerWithUpdateSource<>(this, logPub, booleanGetter);
     autoPrimaryLogs.put(key, compundLogger);
   }
 
@@ -235,8 +235,8 @@ public class Loggerhead {
   public void addStringLogger(String key, LogMode mode, Supplier<String> stringGetter) {
 
     PrimaryStringLog logPub = new PrimaryStringLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryStringLog, String> compundLogger =
-        new SourceUpdateMap<>(this, logPub, stringGetter);
+    LoggerWithUpdateSource<PrimaryStringLog, String> compundLogger =
+        new LoggerWithUpdateSource<>(this, logPub, stringGetter);
     autoPrimaryLogs.put(key, compundLogger);
   }
 
@@ -250,8 +250,8 @@ public class Loggerhead {
   public void addIntegerLogger(String key, LogMode mode, Supplier<Integer> integerGetter) {
 
     PrimaryIntegerLog logPub = new PrimaryIntegerLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryIntegerLog, Integer> compundLogger =
-        new SourceUpdateMap<>(this, logPub, integerGetter);
+    LoggerWithUpdateSource<PrimaryIntegerLog, Integer> compundLogger =
+        new LoggerWithUpdateSource<>(this, logPub, integerGetter);
     autoPrimaryLogs.put(key, compundLogger);
   }
 
@@ -265,8 +265,8 @@ public class Loggerhead {
   public void addDoubleLogger(String key, LogMode mode, Supplier<Double> doubleGetter) {
 
     PrimaryDoubleLog logPub = new PrimaryDoubleLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryDoubleLog, Double> compundLogger =
-        new SourceUpdateMap<>(this, logPub, doubleGetter);
+    LoggerWithUpdateSource<PrimaryDoubleLog, Double> compundLogger =
+        new LoggerWithUpdateSource<>(this, logPub, doubleGetter);
     autoPrimaryLogs.put(key, compundLogger);
   }
 
@@ -281,8 +281,8 @@ public class Loggerhead {
       String key, LogMode mode, Supplier<boolean[]> booleanArrayGetter) {
 
     PrimaryBooleanArrayLog logPub = new PrimaryBooleanArrayLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryBooleanArrayLog, boolean[]> compundLogger =
-        new SourceUpdateMap<>(this, logPub, booleanArrayGetter);
+    LoggerWithUpdateSource<PrimaryBooleanArrayLog, boolean[]> compundLogger =
+        new LoggerWithUpdateSource<>(this, logPub, booleanArrayGetter);
     autoPrimaryLogs.put(key, compundLogger);
   }
 
@@ -296,8 +296,8 @@ public class Loggerhead {
   public void addStringArrayLogger(String key, LogMode mode, Supplier<String[]> stringArrayGetter) {
 
     PrimaryStringArrayLog logPub = new PrimaryStringArrayLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryStringArrayLog, String[]> compundLogger =
-        new SourceUpdateMap<>(this, logPub, stringArrayGetter);
+    LoggerWithUpdateSource<PrimaryStringArrayLog, String[]> compundLogger =
+        new LoggerWithUpdateSource<>(this, logPub, stringArrayGetter);
     autoPrimaryLogs.put(key, compundLogger);
   }
 
@@ -311,8 +311,8 @@ public class Loggerhead {
   public void addIntegerArrayLogger(String key, LogMode mode, Supplier<long[]> integerArrayGetter) {
 
     PrimaryIntegerArrayLog logPub = new PrimaryIntegerArrayLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryIntegerArrayLog, long[]> compundLogger =
-        new SourceUpdateMap<>(this, logPub, integerArrayGetter);
+    LoggerWithUpdateSource<PrimaryIntegerArrayLog, long[]> compundLogger =
+        new LoggerWithUpdateSource<>(this, logPub, integerArrayGetter);
     autoPrimaryLogs.put(key, compundLogger);
   }
 
@@ -326,8 +326,8 @@ public class Loggerhead {
   public void addDoubleArrayLogger(String key, LogMode mode, Supplier<double[]> doubleArrayGetter) {
 
     PrimaryDoubleArrayLog logPub = new PrimaryDoubleArrayLog(key, mode, ntInst, log);
-    SourceUpdateMap<PrimaryDoubleArrayLog, double[]> compundLogger =
-        new SourceUpdateMap<>(this, logPub, doubleArrayGetter);
+    LoggerWithUpdateSource<PrimaryDoubleArrayLog, double[]> compundLogger =
+        new LoggerWithUpdateSource<>(this, logPub, doubleArrayGetter);
     autoPrimaryLogs.put(key, compundLogger);
   }
 
@@ -614,8 +614,8 @@ public class Loggerhead {
   public <T, S extends Struct<T>> Loggerhead addStructLogger(
       String key, LogMode mode, Supplier<T> moduleStateGetter, Struct<T> struct) {
     PrimaryStructLog<T, S> logPub = new PrimaryStructLog<>(key, mode, ntInst, log, struct);
-    SourceUpdateMap<PrimaryStructLog<T, S>, T> compundLogger =
-        new SourceUpdateMap<>(this, logPub, moduleStateGetter);
+    LoggerWithUpdateSource<PrimaryStructLog<T, S>, T> compundLogger =
+        new LoggerWithUpdateSource<>(this, logPub, moduleStateGetter);
     autoPrimaryLogs.put(key, compundLogger);
 
     return this;
@@ -625,12 +625,13 @@ public class Loggerhead {
       String key, LogMode mode, Supplier<T[]> valueGetter, Struct<T> struct) {
     PrimaryStructArrayLog<T, S> logPub =
         new PrimaryStructArrayLog<>(key, mode, ntInst, log, struct);
-    SourceUpdateMap<PrimaryStructArrayLog<T, S>, T[]> mapping =
-        new SourceUpdateMap<>(this, logPub, valueGetter);
+    LoggerWithUpdateSource<PrimaryStructArrayLog<T, S>, T[]> mapping =
+        new LoggerWithUpdateSource<>(this, logPub, valueGetter);
     autoPrimaryLogs.put(key, mapping);
     return this;
   }
 
+  @SuppressWarnings("unchecked")
   public <T, S extends Struct<T>> void manualPutStruct(
       String key, LogMode mode, T value, Struct<T> struct) {
     if (autoPrimaryLogs.containsKey(key)) {
@@ -656,6 +657,7 @@ public class Loggerhead {
     logPub.update(value);
   }
 
+  @SuppressWarnings("unchecked")
   public <T, S extends Struct<T>> void manualPutStructArray(
       String key, LogMode mode, T[] value, Struct<T> struct) {
     if (autoPrimaryLogs.containsKey(key)) {
@@ -663,7 +665,6 @@ public class Loggerhead {
     }
 
     PrimaryStructArrayLog<T, S> logPub = null;
-    String errors = "";
     if (manualPrimaryLogs.containsKey(key)) {
       manualPrimaryLogs.get(key);
       if (manualPrimaryLogs.get(key) instanceof PrimaryStructArrayLog<?, ?>) {

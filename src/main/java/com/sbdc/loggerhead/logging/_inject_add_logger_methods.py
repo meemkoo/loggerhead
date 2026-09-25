@@ -155,8 +155,8 @@ def generate_loggerhead_java_inject():
     
     body = f"""
 Primary{cd.full_class_name}Log logPub = new Primary{cd.full_class_name}Log(key, mode, ntInst, log);
-SourceUpdateMap<Primary{cd.full_class_name}Log, {cd.base_type if cd.is_array else cd.wrapper_type}> compundLogger =
-    new SourceUpdateMap<>(this, logPub, {getterCamel}Getter);
+LoggerWithUpdateSource<Primary{cd.full_class_name}Log, {cd.base_type if cd.is_array else cd.wrapper_type}> compundLogger =
+    new LoggerWithUpdateSource<>(this, logPub, {getterCamel}Getter);
 autoPrimaryLogs.put(key, compundLogger);
 """
 
@@ -172,8 +172,8 @@ autoPrimaryLogs.put(key, compundLogger);
   struct_stuff_auto = """public <T, S extends Struct<T>> Loggerhead addStructLogger(
 String key, LogMode mode, Supplier<T> moduleStateGetter, Struct<T> struct) {
 PrimaryStructLog<T, S> logPub = new PrimaryStructLog<>(key, mode, ntInst, log, struct);
-SourceUpdateMap<PrimaryStructLog<T, S>, T> compundLogger =
-    new SourceUpdateMap<>(this, logPub, moduleStateGetter);
+LoggerWithUpdateSource<PrimaryStructLog<T, S>, T> compundLogger =
+    new LoggerWithUpdateSource<>(this, logPub, moduleStateGetter);
 autoPrimaryLogs.put(key, compundLogger);
 
 return this;
@@ -183,8 +183,8 @@ public <T, S extends Struct<T>> Loggerhead addStructArrayLogger(
   String key, LogMode mode, Supplier<T[]> valueGetter, Struct<T> struct) {
 PrimaryStructArrayLog<T, S> logPub =
     new PrimaryStructArrayLog<>(key, mode, ntInst, log, struct);
-SourceUpdateMap<PrimaryStructArrayLog<T, S>, T[]> mapping =
-    new SourceUpdateMap<>(this, logPub, valueGetter);
+LoggerWithUpdateSource<PrimaryStructArrayLog<T, S>, T[]> mapping =
+    new LoggerWithUpdateSource<>(this, logPub, valueGetter);
 autoPrimaryLogs.put(key, mapping);
 return this;
 }
@@ -239,7 +239,9 @@ if (autoPrimaryLogs.containsKey(key)) {{
                         ], jdoc=javadoc)
     methods.append(method)
 
-  struct_stuff_manual = """public <T, S extends Struct<T>> void manualPutStruct(String key, LogMode mode, T value, Struct<T> struct) {
+  struct_stuff_manual = """
+    @SuppressWarnings("unchecked")
+    public <T, S extends Struct<T>> void manualPutStruct(String key, LogMode mode, T value, Struct<T> struct) {
     if (autoPrimaryLogs.containsKey(key)) {
       throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
     }
@@ -260,13 +262,13 @@ if (autoPrimaryLogs.containsKey(key)) {{
   logPub.update(value);
   }
 
+@SuppressWarnings("unchecked")
 public <T, S extends Struct<T>> void manualPutStructArray(String key, LogMode mode, T[] value, Struct<T> struct) {
     if (autoPrimaryLogs.containsKey(key)) {
       throw new RuntimeException("Manual and automatic loggers cannot have the same path/name");
     }
 
     PrimaryStructArrayLog<T, S> logPub = null;
-    String errors = "";
     if (manualPrimaryLogs.containsKey(key)) {
       manualPrimaryLogs.get(key);
       if (manualPrimaryLogs.get(key) instanceof PrimaryStructArrayLog<?, ?>) {

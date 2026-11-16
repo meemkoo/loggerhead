@@ -35,12 +35,13 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.struct.Struct;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-/** Singleton that orchestrates all logging. The entry-point of the library */
+/** Singleton that orchestrates all logging. The entry-point of the logging component of library */
 public class Loggerhead {
   // TODO: Name this better
   public static class LoggerWithUpdateSource<T extends AbstractPrimaryLog<E, ?, ?>, E> {
@@ -61,14 +62,21 @@ public class Loggerhead {
     public void updateManual(E newValue) {}
   }
 
-  private static final Loggerhead INSTANCE = new Loggerhead();
+  private static Loggerhead INSTANCE;
 
   /**
    * @return Loggerhead instance
    */
   public static Loggerhead getInstance() {
+    if (INSTANCE == null) {
+      INSTANCE = new Loggerhead();
+    }
     return INSTANCE;
   }
+
+  private boolean userExcplicitlyWantsLogging = false;
+  private final Thread UEWLWatchdog =
+      new Thread(this::checkUserExcplicitlyWantsLogging, "UEWLLoggerheadWatchdog");
 
   private final NetworkTableInstance ntInst = NetworkTableInstance.getDefault();
   private final DataLog log = DataLogManager.getLog();
@@ -80,7 +88,29 @@ public class Loggerhead {
 
   private final Table rootTable = new Table(this);
 
-  private Loggerhead() {}
+  private Loggerhead() {
+    UEWLWatchdog.start();
+  }
+
+  private void checkUserExcplicitlyWantsLogging() {
+    double startTime = Timer.getTimestamp();
+
+    while (true) {
+      if ((Timer.getTimestamp() - startTime) < 5) {
+        continue;
+      }
+
+      if (userExcplicitlyWantsLogging != true) {
+        System.out.println("WARNING: For legacy reasons loggerhead creates a lot of static stuff,");
+        System.out.println(
+            "WARNING: \tFor whatever reason you have called Loggerhead.getInstance() without ever");
+        System.out.println(
+            "WARNING: \tinitializing logging. Please either remove the .getIstance() or call .initializeLogging()");
+      }
+
+      break;
+    }
+  }
 
   /**
    * Pasthrough function for {@code Loggerhead.getInstance().getConfigurator().addHook} Adds a hook
@@ -104,6 +134,7 @@ public class Loggerhead {
   }
 
   private void commonDefaultInitialize() {
+    userExcplicitlyWantsLogging = true;
     DataLogManager.logNetworkTables(false);
     DataLogManager.start();
     LiveWindow.disableAllTelemetry();
@@ -149,7 +180,13 @@ public class Loggerhead {
     return this;
   }
 
+  //
+  //
+  //
   // --- Configuration ---
+  //
+  //
+  //
 
   /**
    * @param applyTo callable that recieves the {@link Configurator}
@@ -173,12 +210,7 @@ public class Loggerhead {
     compoundLoggers.clear();
 
     rootTable.clearSubtables();
-
-    // ntInst.stopLocal();
-    // ntInst.startServer();
     // TODO figure out how to change logs
-    // DataLogManager.stop();
-    // DataLogManager.start(null, null);
   }
 
   /**

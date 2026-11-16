@@ -15,7 +15,13 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.sbdc.loggerhead.logging.exceptions;
+package com.sbdc.loggerhead.exceptions;
 
 /** Raised when the the root table is instantiated more than one time */
-public class LoggingTableRootDefinedError extends RuntimeException {}
+public class LoggingTableRootDefinedError extends RuntimeException {
+  public LoggingTableRootDefinedError() {}
+
+  public LoggingTableRootDefinedError(String arg0) {
+    super(arg0);
+  }
+}

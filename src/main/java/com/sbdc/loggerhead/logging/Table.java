@@ -17,8 +17,8 @@
 
 package com.sbdc.loggerhead.logging;
 
+import com.sbdc.loggerhead.exceptions.LoggingTableRootDefinedError;
 import com.sbdc.loggerhead.logging.compoundlogger.CompoundLogger;
-import com.sbdc.loggerhead.logging.exceptions.LoggingTableRootDefinedError;
 import edu.wpi.first.util.struct.Struct;
 import java.util.HashMap;
 import java.util.function.Consumer;

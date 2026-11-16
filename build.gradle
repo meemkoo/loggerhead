@@ -74,6 +74,9 @@ ext.wpilibVersion = "2026.+"
 
 repositories {
   mavenCentral()
+
+  maven { url = "https://maven.ctr-electronics.com/release/" }
+  maven { url = "https://yet-another-software-suite.github.io/YAMS/releases/" }
 }
 
 if (project.hasProperty('releaseMode')) {
@@ -95,6 +98,7 @@ var javaVersion = "17"
 dependencies {
   implementation wpi.java.vendor.java()
 
+  implementation "edu.wpi.first.wpilibNewCommands:wpilibNewCommands-java:${wpi.versions.wpilibVersion.get()}"
   implementation "edu.wpi.first.cscore:cscore-java:$wpilibVersion"
   implementation "edu.wpi.first.cameraserver:cameraserver-java:$wpilibVersion"
   implementation "edu.wpi.first.ntcore:ntcore-java:$wpilibVersion"
@@ -112,6 +116,9 @@ dependencies {
   testImplementation 'org.junit.jupiter:junit-jupiter:5.13.4'
   testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
   testRuntimeOnly 'us.hebi.quickbuf:quickbuf-runtime:1.4'
+
+  compileOnly "com.ctre.phoenix6:wpiapi-java:25.1.0"
+  compileOnly "yams:YAMS-java:2026.9.16"
 }
 
 // Set up java tests
